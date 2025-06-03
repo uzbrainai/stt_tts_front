@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import RenderRoute from "./routes/RenderRoute";
+import {LoginPage} from "./pages/auth";
+import {PageLoader} from "./components/loader";
+import {useEffect} from "react";
+import {useAuthStore} from "./store/authStore";
+import {ACCESS_TOKEN} from "./config/constants";
+import instance from "./config/axios_config";
+import {message} from "antd";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'antd/dist/reset.css'
 function App() {
-  const [count, setCount] = useState(0)
+  const {isAuth, setUserAndAuth, loading, setLoading} = useAuthStore(s => s);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+  useEffect(() => {
+    (async () => {
+      try {
+        let token = localStorage.getItem(ACCESS_TOKEN);
+        if (token) {
+          setLoading(true)
+          let resp = await instance({
+            method: "get",
+            url: "/auth/current-user"
+          })
+          if (resp?.data?.status === 1) {
+            const data = resp?.data?.data;
+            setUserAndAuth({
+              isAuth: true,
+              user: {
+                id: data?.id,
+                firstName: data?.firstName,
+                username: data?.username,
+                lastName: data?.lastName,
+                middleName: data?.middleName,
+                roles: data?.roles,
+                requiredChangePassword: data?.requiredChangePassword
+              },
+              permissions: data?.roles?.map((item: any) => item?.permissions)?.flat()
+            });
+            message.success("Kirish tasdiqlandi!");
+            setLoading(false)
+          } else {
+            setLoading(false)
+            message.error("Xatolik yuz berdi!");
+          }
+        }
+      } catch (e: any) {
+        let resp = e?.response?.data?.data;
+        if (resp) {
+          message.error(resp?.msg)
+        } else {
+          message.error("Xatolik yuz berdi!")
+        }
+        localStorage.clear();
+        setLoading(false)
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [])
+
+  return loading ? <PageLoader/> : isAuth ? <RenderRoute/> : <LoginPage/>
 }
 
 export default App
