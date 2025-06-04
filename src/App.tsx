@@ -1,5 +1,4 @@
 import RenderRoute from "./routes/RenderRoute";
-import {LoginPage} from "./pages/auth";
 import {PageLoader} from "./components/loader";
 import {useEffect} from "react";
 import {useAuthStore} from "./store/authStore";
@@ -8,6 +7,7 @@ import instance from "./config/axios_config";
 import {message} from "antd";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'antd/dist/reset.css'
+import {HomePage} from "./pages/home";
 function App() {
   const {isAuth, setUserAndAuth, loading, setLoading} = useAuthStore(s => s);
 
@@ -59,7 +59,7 @@ function App() {
     })()
   }, [])
 
-  return loading ? <PageLoader/> : isAuth ? <RenderRoute/> : <LoginPage/>
+  return loading ? <PageLoader/> : isAuth ? <RenderRoute/> : <HomePage/>
 }
 
 export default App
