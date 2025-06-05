@@ -23,7 +23,8 @@ export const CustomLayout: FC<{ children: any }> = ({children}) => {
 
     const logout = () => {
         setUserAndAuth({isAuth: false, user: undefined, permissions: []})
-        localStorage.removeItem(ACCESS_TOKEN)
+        localStorage.removeItem(ACCESS_TOKEN);
+        navigate("/")
     }
     return <Layout style={{width: "100vw", height: "100vh"}}>
         <Sider trigger={null} collapsedWidth={0} collapsible collapsed={collapsed}>

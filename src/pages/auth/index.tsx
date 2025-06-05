@@ -5,6 +5,7 @@ import {styles} from "./style";
 import instance from "../../config/axios_config";
 import {useAuthStore} from "../../store/authStore";
 import {ACCESS_TOKEN} from "../../config/constants";
+import {useNavigate} from "react-router";
 
 const {useToken} = theme;
 const {useBreakpoint} = Grid;
@@ -12,6 +13,7 @@ const {Title} = Typography;
 
 export const LoginPage = () => {
     const {token} = useToken();
+    const navigate = useNavigate();
     const screens = useBreakpoint();
     const {setUserAndAuth, setLoading} = useAuthStore(s => s);
 
@@ -43,7 +45,8 @@ export const LoginPage = () => {
                     permissions: resData?.user?.roles?.map((item: any) => item?.permissions)?.flat()
                 });
                 localStorage.setItem(ACCESS_TOKEN, resData?.auth_data?.token)
-                setLoading(false)
+                setLoading(false);
+                navigate("/account");
             } else {
                 setLoading(false)
                 message.error("Authorization is failed!");
@@ -60,10 +63,12 @@ export const LoginPage = () => {
         <section style={styles(token, screens)?.section}>
             <div className="shadow" style={styles(token, screens)?.container}>
                 <div className="text-center" style={styles(token, screens)?.header}>
-                    <img src={logo}
-                         width="150"
-                         height="100"
-                    />
+                    <div className="d-flex justify-content-center">
+                        <img src={logo}
+                             width="150"
+                             height="100"
+                        />
+                    </div>
                     <Title style={styles(token, screens)?.title}>Adminga kirish</Title>
                 </div>
                 <Form

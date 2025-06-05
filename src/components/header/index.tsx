@@ -1,6 +1,11 @@
 import {useEffect, useState} from "react";
+import {Button} from "antd";
+import {useNavigate} from "react-router";
+import {useAuthStore} from "../../store/authStore";
 
 export const HeaderComponent = () => {
+    const navigate = useNavigate();
+    const {isAuth} = useAuthStore()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [size, setSize] = useState(window.innerWidth);
 
@@ -41,6 +46,9 @@ export const HeaderComponent = () => {
                    className="text-gray-700 hover:text-indigo-600 font-medium transition duration-300">Mijozlar</a>
                 <a href="#contact"
                    className="text-gray-700 hover:text-indigo-600 font-medium transition duration-300">Bog'lanish</a>
+                <Button onClick={() => {
+                    navigate(isAuth ? "/account" : "/login")
+                }} type="primary">{isAuth ? "Kabinet" : "Kirish"}</Button>
             </nav>
             <button className="xl:hidden text-gray-700 text-2xl" onClick={toggleMobileMenu}>
                 <i className="fas fa-bars"></i>
