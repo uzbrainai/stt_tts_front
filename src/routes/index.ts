@@ -5,11 +5,26 @@ import {CustomLayout} from "../components/layout";
 import {LuLayoutDashboard} from "react-icons/lu";
 import {PiTreeStructure} from "react-icons/pi";
 import {RolesAndPermissions} from "../pages/roles_and_permissions";
+import {HomePage} from "../pages/home";
 
 export const routes: Array<RouteType> = [
     {
         name: "Bosh sahifa",
         path: "/",
+        element: HomePage,
+        layout: CustomLayout,
+        icon: LuLayoutDashboard,
+        config: {
+            isShowMenu: false,
+            isRequiredAuth: false
+        },
+        props: {
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        }
+    },
+    {
+        name: "Bosh sahifa",
+        path: "/account",
         element: Dashboard,
         layout: CustomLayout,
         icon: LuLayoutDashboard,
