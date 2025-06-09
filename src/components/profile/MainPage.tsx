@@ -1,44 +1,10 @@
-import {SttPage} from "./SttPage";
-import {WatermarkingPage} from "./WatermarkingPage";
-import {AuthenticityPage} from "./AuthenticityPage";
-import {HistoryPage} from "./HistoryPage";
-import {BillingPage} from "./BillingPage";
-import {ApiPage} from "./ApiDocPage";
-import {FeedbackPage} from "./FeedbackPage";
-import {UserProfile} from "./UserProfile";
-import {TtsPage} from "./TtsPage";
 import {FC, useEffect, useState} from "react";
 import {Header} from "./ProfileHeader";
 import {Sidebar} from "./ProfileSidebar";
 
-export const MainContent: FC<any> = ({page}) => {
+export const MainContent: FC<any> = ({children}) => {
     const [activePage, setActivePage] = useState<string>('profil');
-    const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-    const pages: any = {
-        profil: <UserProfile/>,
-        stt: <SttPage/>,
-        tts: <TtsPage/>,
-        watermarking: <WatermarkingPage/>,
-        haqiqiylik: <AuthenticityPage/>,
-        tarix: <HistoryPage/>,
-        toldirish: <BillingPage/>,
-        api: <ApiPage/>,
-        feedback: <FeedbackPage/>,
-    };
-
-    const pageTitles: { [key: string]: string } = {
-        profil: "Mening profilim",
-        feedback: "Fikr-mulohaza",
-        stt: "Nutqni matnga o'girish",
-        tts: "Matnni nutqqa o'girish",
-        watermarking: "Ovozga suv belgisi",
-        haqiqiylik: "Ovoz haqiqiyligi",
-        api: "Dasturchi API",
-        tarix: "Hisob tarixi",
-        toldirish: "Hisobni to'ldirish"
-    };
 
     useEffect(() => {
         const style = document.createElement('style');
@@ -73,23 +39,22 @@ export const MainContent: FC<any> = ({page}) => {
     return (
         <div className="flex h-screen bg-gray-200">
             <div
-                className={`fixed inset-y-0 left-0 z-30 lg:relative lg:translate-x-0 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                className={`fixed inset-y-0 left-0 z-30 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <Sidebar
                     activePage={activePage}
                     setActivePage={(page: string) => {
                         setActivePage(page);
-                        setMobileMenuOpen(false);
                     }}
-                    isCollapsed={isSidebarCollapsed}
-                    setCollapsed={setSidebarCollapsed}
+                    isCollapsed={isMobileMenuOpen}
+                    setCollapsed={setMobileMenuOpen}
                 />
             </div>
 
             <div className="flex-1 flex flex-col overflow-hidden">
-                <Header onMenuClick={() => setMobileMenuOpen(!isMobileMenuOpen)} pageTitle={pageTitles[activePage]}/>
+                <Header onMenuClick={() => setMobileMenuOpen(!isMobileMenuOpen)}/>
                 <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 md:p-6">
                     <div className="container mx-auto page">
-                        {pages[page] || <UserProfile/>}
+                        {children}
                     </div>
                 </main>
             </div>

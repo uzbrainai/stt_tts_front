@@ -9,8 +9,11 @@ export const SttPage = () => {
     };
 
     return (
-        <div className="bg-white p-4 md:p-8 rounded-xl shadow-lg">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6"><h2 className="text-2xl font-bold text-gray-800 mb-2 sm:mb-0">Nutqni Matnga O'girish (STT)</h2><span className="bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full">Narx: 1 daqiqa / 500 so'm</span></div>
+        <div className="bg-red p-4 md:p-8 rounded-xl shadow-lg">
+            <div className="flex flex-col justify-between items-start mb-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-2 sm:mb-0">Nutqni Matnga O'girish (STT)</h2>
+                <span className="bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full">Narx: 1 daqiqa / 500 so'm</span>
+            </div>
             <div className="grid md:grid-cols-2 gap-8">
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Audio fayl yuklang (.mp3, .wav)</label>

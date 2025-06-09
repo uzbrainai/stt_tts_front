@@ -1,5 +1,5 @@
 export enum modes {
-    PROD, DEV
+    PROD, DEV,IP
 }
 
-export const active_mode=modes.PROD
+export const active_mode=modes.IP
