@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
+import {SidebarProvider, SidebarInset, useSidebar} from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 
 interface DashboardLayoutProps {
@@ -8,6 +8,7 @@ interface DashboardLayoutProps {
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
