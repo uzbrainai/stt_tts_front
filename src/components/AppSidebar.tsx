@@ -6,9 +6,6 @@ import {
   Settings,
   User,
   Key,
-  FileText,
-  History,
-  DollarSign,
   CreditCard
 } from 'lucide-react';
 import {

@@ -16,7 +16,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import {GiHamburgerMenu} from "react-icons/gi";
 import {RxHamburgerMenu} from "react-icons/rx";
 import {IoMdClose} from "react-icons/io";
 
