@@ -1,13 +1,13 @@
 import {FC, JSX} from "react";
-import {HeaderComponent} from "../../components/header";
-import {FooterComponent} from "../../components/footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export const AboutUs: FC = (): JSX.Element => {
     return (
         <div>
-            <HeaderComponent/>
+            <Header/>
             <div>About us</div>
-            <FooterComponent/>
+            <Footer/>
         </div>
     )
 }
