@@ -19,4 +19,9 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  preview:{
+    allowedHosts:[
+      "uzbrainai.uz"
+    ]
+  }
 }));
