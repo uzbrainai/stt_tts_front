@@ -4,77 +4,118 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ArrowLeft } from 'lucide-react';
+import {ACCESS_TOKEN} from "@/config/constants";
+import {message} from "antd";
+import instance from "@/config/axios_config";
+import {useAuthStore} from "@/store/authStore";
+import logo from "@/assets/logo.png";
 
 const Login = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const {setUserAndAuth, setLoading,loading} = useAuthStore(s => s);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate login process
-    setTimeout(() => {
-      setIsLoading(false);
-      // Redirect to dashboard on successful login
-      navigate('/dashboard');
-    }, 1000);
+  const onFinish = async (values: any) => {
+    console.log(values)
+    values?.preventDefault();
+    try {
+      setLoading(true)
+      let data = new FormData(values?.target);
+      console.log(data?.values())
+      let resp = await instance({
+        method: "post",
+        url: "/auth/login",
+        data
+      });
+      if (resp?.data?.status === 1) {
+        const resData = resp?.data?.data;
+        message.success("Authorization is success!");
+        setUserAndAuth({
+          isAuth: true,
+          user: {
+            id: resData?.user?.id,
+            username: resData?.user?.username,
+            lastName: resData?.user?.lastName,
+            firstName: resData?.user?.firstName,
+            middleName: resData?.user?.middleName,
+            roles: resData?.user?.roles,
+            requiredChangePassword: resData?.user?.requiredChangePassword
+          },
+          permissions: resData?.user?.roles?.map((item: any) => item?.permissions)?.flat()
+        });
+        localStorage.setItem(ACCESS_TOKEN, resData?.auth_data?.token);
+        navigate("/dashboard")
+        setLoading(false)
+      } else {
+        setLoading(false)
+        message.error("Authorization is failed!");
+      }
+    } catch (e) {
+      setLoading(false)
+      console.log(e);
+      message.error("Authorization is failed!");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950 dark:to-purple-950 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">VA</span>
+      <div className="absolute top-4 left-4">
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            {t('nav.home')}
+          </Link>
+        </Button>
+      </div>
+      
+      <Card className="w-full max-w-md mx-auto">
+        <CardHeader className="text-center space-y-4">
+          <div className="flex items-center justify-center space-x-2">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+              <img src={logo} alt="logo"/>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              VoiceAI
+              UzBrainAi
             </span>
           </div>
-          <CardTitle className="text-2xl">{t('auth.login.title')}</CardTitle>
-          <CardDescription>
-            Enter your credentials to access your account
+          <CardTitle className="text-xl md:text-2xl">{t('auth.login.title')}</CardTitle>
+          <CardDescription className="text-sm md:text-base px-2">
+            {t("auth.login.description")}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="space-y-4">
+          <form onSubmit={onFinish} className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">
+              <Label htmlFor="email" className="text-sm font-medium">
                 {t('auth.login.email')}
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              </Label>
+              <Input
+                type="text"
+                name={"username"}
                 required
+                placeholder="username or email"
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="password" className="text-sm font-medium">
+              <Label htmlFor="password" className="text-sm font-medium">
                 {t('auth.login.password')}
-              </label>
-              <input
-                id="password"
+              </Label>
+              <Input
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name={"password"}
                 required
+                placeholder="••••••••"
               />
             </div>
             <Button 
               type="submit" 
-              className="w-full"
-              disabled={isLoading}
+              className="w-full text-sm md:text-base h-10 md:h-11"
+              disabled={loading}
             >
-              {isLoading ? 'Signing in...' : t('auth.login.submit')}
+              {loading ? 'Signing in...' : t('auth.login.submit')}
             </Button>
           </form>
           <div className="mt-6 text-center">

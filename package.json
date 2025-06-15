@@ -1,14 +1,14 @@
 {
-  "name": "stt_tts_front",
+  "name": "vite_react_shadcn_ts",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev-with-host": "vite --host --port 3035",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
+    "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview --host --port 3000"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -40,10 +40,11 @@
     "@radix-ui/react-toggle-group": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.4",
     "@tanstack/react-query": "^5.56.2",
-    "antd": "^5.25.4",
+    "antd": "^5.26.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "country-flag-icons": "^1.5.19",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
     "i18next": "^25.2.1",
@@ -64,7 +65,8 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.3",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

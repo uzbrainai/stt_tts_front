@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ArrowLeft } from 'lucide-react';
 
 const Signup = () => {
   const { t } = useTranslation();
@@ -34,6 +35,15 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/20">
+      <div className="absolute top-4 left-4">
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            {t('nav.home')}
+          </Link>
+        </Button>
+      </div>
+
       <div className="w-full max-w-md space-y-8 p-8">
         <div className="text-center">
           <div className="flex justify-center mb-6">

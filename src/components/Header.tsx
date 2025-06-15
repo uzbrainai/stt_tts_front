@@ -4,23 +4,24 @@ import {useTranslation} from 'react-i18next';
 import {useTheme} from '@/contexts/ThemeContext';
 import {Button} from '@/components/ui/button';
 import {Switch} from '@/components/ui/switch';
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 import {
     NavigationMenu,
+    NavigationMenuContent,
     NavigationMenuItem,
-    NavigationMenuList
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger
 } from '@/components/ui/navigation-menu';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger
-} from "@/components/ui/select";
 import {Menu, X} from 'lucide-react';
+import logo from '../assets/logo.png'
+import {useAuthStore} from "@/store/authStore";
 
 const Header = () => {
     const {t, i18n} = useTranslation();
     const {theme, toggleTheme} = useTheme();
     const location = useLocation();
+    const {isAuth} = useAuthStore()
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const changeLanguage = (lng: string) => {
@@ -29,7 +30,7 @@ const Header = () => {
 
     const isActive = (path: string) => location.pathname === path;
 
-    const navLinks = [
+    const navItems = [
         {path: '/', label: t('nav.home')},
         {path: '/products', label: t('nav.products')},
         {path: '/services', label: t('nav.services')},
@@ -40,101 +41,63 @@ const Header = () => {
         {path: '/contact', label: t('nav.contact')}
     ];
 
+    const languageOptions = [
+        {value: 'uz', label: <span>O'zbek</span>},
+        {value: 'en', label: <span>English</span>},
+        {value: 'ru', label: <span>Русский</span>}
+    ];
+
     return (
         <header
             className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                {/* Logo */}
                 <Link to="/" className="flex items-center space-x-2">
-                    <div
-                        className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">VA</span>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center">
+                        <img src={logo} alt="logo"/>
                     </div>
                     <span
                         className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            UzBrainAI
+            UzBrainAi
           </span>
                 </Link>
 
                 {/* Desktop Navigation */}
-                <NavigationMenu className="hidden md:flex">
-                    <NavigationMenuList className="flex gap-2">
-                        {navLinks.map((link) => (
-                            <NavigationMenuItem key={link.path}>
+                <NavigationMenu className="hidden lg:flex">
+                    <NavigationMenuList>
+                        {navItems.map((item) => (
+                            <NavigationMenuItem key={item.path}>
                                 <Link
-                                    to={link.path}
+                                    to={item.path}
                                     className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                                        isActive(link.path)
+                                        isActive(item.path)
                                             ? 'bg-accent text-accent-foreground'
                                             : 'hover:bg-accent hover:text-accent-foreground'
                                     }`}
                                 >
-                                    {link.label}
+                                    {item.label}
                                 </Link>
                             </NavigationMenuItem>
                         ))}
                     </NavigationMenuList>
                 </NavigationMenu>
 
-                {/* Right Controls */}
-                <div className="hidden md:flex items-center space-x-4">
+                {/* Desktop Controls */}
+                <div className="hidden lg:flex items-center space-x-4">
                     {/* Language Switcher */}
-                    <Select value={i18n.language} onValueChange={changeLanguage}>
-                        <SelectTrigger style={{width:"131px"}}>
-                            {i18n.language === "uz" && (
-                                <div className="flex items-center space-x-1">
-                                    <img width={20}
-                                         src="https://gimgs2.nohat.cc/thumb/f/350/flag-of-uzbekistan-kazakhstan-turkmenistan-national-flag-stripe-checkered-flag--5620960208093184.jpg"
-                                         alt="uz"/>
-                                    <span>O'zbekcha</span>
-                                </div>
-                            )}
-                            {i18n.language === "ru" && (
-                                <div className="flex items-center space-x-1">
-                                    <img width={20}
-                                         src="https://www.vhv.rs/dpng/d/438-4383999_russia-flag-clipart-photo-russia-flag-clipart-transparent.png"
-                                         alt="ru"/>
-                                    <span>Русский</span>
-                                </div>
-                            )}
-                            {i18n.language === "en" && (
-                                <div className="flex items-center space-x-1">
-                                    <img width={20}
-                                         src="https://i.pinimg.com/736x/53/a4/ab/53a4ab4b772fd11db92c6aefc71ac907.jpg"
-                                         alt="en"/>
-                                    <span>English</span>
-                                </div>
-                            )}
+                    <Select onValueChange={changeLanguage} value={i18n.language}>
+                        <SelectTrigger className="w-[120px]">
+                            <SelectValue/>
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="uz">
-                                <span className="flex items-center space-x-1">
-                                  <img width={20}
-                                       src="https://gimgs2.nohat.cc/thumb/f/350/flag-of-uzbekistan-kazakhstan-turkmenistan-national-flag-stripe-checkered-flag--5620960208093184.jpg"
-                                       alt="uz"/>
-                                  <span>O'zbekcha</span>
-                                </span>
-                            </SelectItem>
-                            <SelectItem value="ru">
-                                <span className="flex items-center space-x-1">
-                                  <img width={20}
-                                       src="https://www.vhv.rs/dpng/d/438-4383999_russia-flag-clipart-photo-russia-flag-clipart-transparent.png"
-                                       alt="ru"/>
-                                  <span>Русский</span>
-                                </span>
-                            </SelectItem>
-                            <SelectItem value="en">
-                                <span className="flex items-center space-x-1">
-                                  <img width={20}
-                                       src="https://i.pinimg.com/736x/53/a4/ab/53a4ab4b772fd11db92c6aefc71ac907.jpg"
-                                       alt="en"/>
-                                  <span>English</span>
-                                </span>
-                            </SelectItem>
+                            {languageOptions.map((option) => (
+                                <SelectItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
 
-                    {/* Theme Switch */}
+                    {/* Theme Toggle */}
                     <div className="flex items-center space-x-2">
                         <span className="text-sm">🌞</span>
                         <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme}/>
@@ -144,88 +107,92 @@ const Header = () => {
                     {/* Auth Buttons */}
                     <div className="flex items-center space-x-2">
                         <Button variant="outline" size="sm" asChild>
-                            <Link to="/login">{t('nav.login')}</Link>
+                            <Link to={isAuth?"/dashboard":"/login"}>{t(isAuth ? 'nav.cabinet' : 'nav.login')}</Link>
                         </Button>
-                        <Button size="sm" asChild>
+                        {isAuth ? "" : <Button size="sm" asChild>
                             <Link to="/signup">{t('nav.signup')}</Link>
-                        </Button>
+                        </Button>}
                     </div>
                 </div>
 
-                {/* Mobile burger icon */}
-                <div className="md:hidden">
-                    <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                        {isMobileMenuOpen ? <X size={24}/> : <Menu size={24}/>}
-                    </button>
-                </div>
+                {/* Mobile Menu Button */}
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    className="lg:hidden"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label="Toggle menu"
+                >
+                    {isMobileMenuOpen ? <X className="h-6 w-6"/> : <Menu className="h-6 w-6"/>}
+                </Button>
             </div>
 
             {/* Mobile Menu */}
             {isMobileMenuOpen && (
-                <div className="md:hidden px-4 pb-4">
-                    <nav className={`
-                           md:hidden px-4 pb-4
-                           transition-all duration-300 ease-in-out
-                           animate-fade-slide-in
-                         `}>
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.path}
-                                to={link.path}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                                    isActive(link.path)
-                                        ? 'bg-accent text-accent-foreground'
-                                        : 'hover:bg-accent hover:text-accent-foreground'
-                                }`}
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
-                        <div className="mt-4 flex items-center space-x-2">
-                            <span className="text-sm">🌞</span>
-                            <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme}/>
-                            <span className="text-sm">🌙</span>
+                <div className="lg:hidden border-t bg-background/95 backdrop-blur">
+                    <div className="container mx-auto px-4 py-4 space-y-4">
+                        {/* Mobile Navigation */}
+                        <div className="space-y-2">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.path}
+                                    to={item.path}
+                                    className={`block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                                        isActive(item.path)
+                                            ? 'bg-accent text-accent-foreground'
+                                            : 'hover:bg-accent hover:text-accent-foreground'
+                                    }`}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    {item.label}
+                                </Link>
+                            ))}
                         </div>
-                        <div className="mt-2">
-                            <Select value={i18n.language} onValueChange={changeLanguage}>
-                                <SelectTrigger className="w-full"/>
-                                <SelectContent className="w-full">
-                                    <SelectItem value="uz">
-                <span className="flex items-center space-x-1">
-                  <img width={20}
-                       src="https://gimgs2.nohat.cc/thumb/f/350/flag-of-uzbekistan-kazakhstan-turkmenistan-national-flag-stripe-checkered-flag--5620960208093184.jpg"
-                       alt="uz"/>
-                  <span>O'zbekcha</span>
-                </span>
-                                    </SelectItem>
-                                    <SelectItem value="ru">
-                <span className="flex items-center space-x-1">
-                  <img width={20}
-                       src="https://www.vhv.rs/dpng/d/438-4383999_russia-flag-clipart-photo-russia-flag-clipart-transparent.png"
-                       alt="ru"/>
-                  <span>Русский</span>
-                </span>
-                                    </SelectItem>
-                                    <SelectItem value="en">
-                <span className="flex items-center space-x-1">
-                  <img width={20} src="https://i.pinimg.com/736x/53/a4/ab/53a4ab4b772fd11db92c6aefc71ac907.jpg"
-                       alt="en"/>
-                  <span>English</span>
-                </span>
-                                    </SelectItem>
-                                </SelectContent>
-                            </Select>
+
+                        {/* Mobile Controls */}
+                        <div className="border-t pt-4 space-y-4">
+                            {/* Language Switcher */}
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm font-medium">Language:</span>
+                                <Select onValueChange={changeLanguage} value={i18n.language}>
+                                    <SelectTrigger className="w-[120px]">
+                                        <SelectValue/>
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {languageOptions.map((option) => (
+                                            <SelectItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+
+                            {/* Theme Toggle */}
+                            <div className="flex items-center justify-between">
+                                <span className="text-sm font-medium">Theme:</span>
+                                <div className="flex items-center space-x-2">
+                                    <span className="text-sm">🌞</span>
+                                    <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme}/>
+                                    <span className="text-sm">🌙</span>
+                                </div>
+                            </div>
+
+                            {/* Auth Buttons */}
+                            <div className="flex flex-col space-y-2">
+                                <Button variant="outline" size="sm" asChild>
+                                    <Link to={isAuth?"/dashboard":"/login"} onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t(isAuth ? 'nav.cabinet' : 'nav.login')}
+                                    </Link>
+                                </Button>
+                                {isAuth ? "" : <Button size="sm" asChild>
+                                    <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                                        {t('nav.signup')}
+                                    </Link>
+                                </Button>}
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-2 mt-4">
-                            <Button variant="outline" asChild>
-                                <Link to="/login">{t('nav.login')}</Link>
-                            </Button>
-                            <Button asChild>
-                                <Link to="/signup">{t('nav.signup')}</Link>
-                            </Button>
-                        </div>
-                    </nav>
+                    </div>
                 </div>
             )}
         </header>
