@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavLink, useLocation, useNavigate} from 'react-router-dom';
+import {Link, NavLink, useLocation, useNavigate} from 'react-router-dom';
 import {
     LayoutDashboard,
     Bot,
@@ -26,6 +26,11 @@ import {
 import {PiSignOut} from "react-icons/pi";
 import {useAuthStore} from "@/store/authStore";
 import {ACCESS_TOKEN} from "@/config/constants";
+import {Switch} from "@/components/ui/switch";
+import {useTheme} from "@/contexts/ThemeContext";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {Button} from "@/components/ui/button";
+import i18n from "@/i18n";
 
 const mainMenuItems = [
     {title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard},
@@ -57,6 +62,7 @@ export function AppSidebar() {
     const {state} = useSidebar();
     const location = useLocation();
     const currentPath = location.pathname;
+    const {theme, toggleTheme} = useTheme();
 
     const isActive = (path: string) => currentPath === path;
     const getNavCls = (path: string) =>
@@ -71,6 +77,16 @@ export function AppSidebar() {
         localStorage.removeItem(ACCESS_TOKEN);
         navigate("/");
     }
+
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
+
+    const languageOptions = [
+        {value: 'uz', label: <span>O'zbek</span>},
+        {value: 'en', label: <span>English</span>},
+        {value: 'ru', label: <span>Русский</span>}
+    ];
 
     return (
         <Sidebar className={state === 'collapsed' ? 'w-14' : 'w-60'} collapsible="icon">
@@ -167,14 +183,39 @@ export function AppSidebar() {
                             ))}
                             <SidebarMenuItem key={"Chiqish"}>
                                 <SidebarMenuButton onClick={logout} className="text-red-500 cursor-pointer" asChild>
-                  <span>
-                    <PiSignOut/>Chiqish
-                  </span>
+                                  <span>
+                                    <PiSignOut/>Chiqish
+                                  </span>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
+                <div className="flex items-center mx-3 flex-col">
+                    <div className="w-full mb-3">
+                        <span>Language:</span>
+                        <Select onValueChange={changeLanguage} value={i18n.language}>
+                            <SelectTrigger className="w-[120px]">
+                                <SelectValue/>
+                            </SelectTrigger>
+                            <SelectContent>
+                                {languageOptions.map((option) => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                        {option.label}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="w-full m-0 p-0 mb-3">
+                        <span>Theme:</span>
+                        <div className="flex items-center">
+                            <span className="text-sm">🌞</span>
+                            <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme}/>
+                            <span className="text-sm">🌙</span>
+                        </div>
+                    </div>
+                </div>
             </SidebarContent>
         </Sidebar>
     );
