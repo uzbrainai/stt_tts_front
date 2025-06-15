@@ -6,9 +6,6 @@ import {
     Settings,
     User,
     Key,
-    FileText,
-    History,
-    DollarSign,
     CreditCard
 } from 'lucide-react';
 import {
@@ -78,6 +75,7 @@ export function AppSidebar() {
         navigate("/");
     }
 
+    console.log(state)
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
@@ -191,7 +189,7 @@ export function AppSidebar() {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
-                <div className="flex items-center mx-3 flex-col">
+                {state === "collapsed" ? "" : <div className="flex items-center mx-3 flex-col">
                     <div className="w-full mb-3">
                         <span>Language:</span>
                         <Select onValueChange={changeLanguage} value={i18n.language}>
@@ -215,7 +213,7 @@ export function AppSidebar() {
                             <span className="text-sm">🌙</span>
                         </div>
                     </div>
-                </div>
+                </div>}
             </SidebarContent>
         </Sidebar>
     );
