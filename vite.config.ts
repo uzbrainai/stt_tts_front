@@ -20,6 +20,6 @@ export default defineConfig(({ mode }) => ({
     },
   },
   preview:{
-    allowedHosts:["uzbrainai.uz"]
+    allowedHosts:["uzbrainai.uz","www.uzbrainai.uz"]
   }
 }));
