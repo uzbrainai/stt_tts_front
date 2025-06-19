@@ -38,6 +38,8 @@ const botMenuItems = [
     {title: 'Text-to-Speech', url: '/dashboard/tts', icon: Bot},
     {title: 'Voice Watermarking', url: '/dashboard/watermarking', icon: Bot},
     {title: 'Voice Authentication', url: '/dashboard/authentication', icon: Bot},
+    { title: 'Voice Detection', url: '/dashboard/voice-detection', icon: Bot },
+    { title: 'Music Detection', url: '/dashboard/music-detection', icon: Bot },
 ];
 
 const devMenuItems = [

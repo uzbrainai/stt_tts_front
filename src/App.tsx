@@ -26,6 +26,16 @@ import {ACCESS_TOKEN} from "@/config/constants";
 import instance from "@/config/axios_config";
 import {useAuthStore} from "@/store/authStore";
 import {message} from "antd";
+import STTLearnMore from "@/pages/products/STTLearnMore";
+import TTSLearnMore from "@/pages/products/TTSLearnMore";
+import WatermarkingLearnMore from "@/pages/products/WatermarkingLearnMore";
+import AuthenticationLearnMore from "@/pages/products/AuthenticationLearnMore";
+import VoiceDetectionLearnMore from "@/pages/products/VoiceDetectionLearnMore";
+import MusicDetectionLearnMore from "@/pages/products/MusicDetectionLearnMore";
+import NewsView from "@/pages/NewsView";
+import ArticleView from "@/pages/ArticleView";
+import VoiceDetectionBot from "@/pages/dashboard/VoiceDetectionBot";
+import MusicDetectionBot from "@/pages/dashboard/MusicDetectionBot";
 
 const App = () => {
     const {isAuth, setUserAndAuth, setLoading} = useAuthStore(s => s);
@@ -108,6 +118,8 @@ const App = () => {
                        element={<WatermarkingBot/>}/>
                 <Route path="authentication"
                        element={<AuthenticationBot/>}/>
+                <Route path="voice-detection" element={<VoiceDetectionBot />} />
+                <Route path="music-detection" element={<MusicDetectionBot />} />
                 <Route path="api" element={<DeveloperAPI/>}/>
                 <Route path="account" element={<Account/>}/>
                 <Route path="billing" element={<Billing/>}/>
@@ -118,9 +130,17 @@ const App = () => {
             <Route element={<Layout/>} path="/">
                 <Route path="" element={<Home/>}/>
                 <Route path="products" element={<Products/>}/>
+                <Route path="products/stt" element={<STTLearnMore/>}/>
+                <Route path="products/tts" element={<TTSLearnMore/>}/>
+                <Route path="products/watermarking" element={<WatermarkingLearnMore/>}/>
+                <Route path="products/authentication" element={<AuthenticationLearnMore/>}/>
+                <Route path="products/voice-detection" element={<VoiceDetectionLearnMore/>}/>
+                <Route path="products/music-detection" element={<MusicDetectionLearnMore/>}/>
                 <Route path="services" element={<Services/>}/>
                 <Route path="news" element={<News/>}/>
+                <Route path="news/:id" element={<NewsView/>}/>
                 <Route path="articles" element={<Articles/>}/>
+                <Route path="articles/:id" element={<ArticleView/>}/>
                 <Route path="pricing" element={<Pricing/>}/>
                 <Route path="testimonials" element={<Testimonials/>}/>
                 <Route path="contact" element={<Contact/>}/>
