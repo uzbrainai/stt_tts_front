@@ -2,4 +2,4 @@ export enum modes {
     PROD, DEV,PROD_PROXY
 }
 
-export const active_mode=modes.PROD
+export const active_mode=modes.DEV

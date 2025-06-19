@@ -10,7 +10,7 @@ export const resourceUz = {
             testimonials: 'Fikr-mulohazalar',
             contact: 'Aloqa',
             login: 'Kirish',
-            signup: 'Ro\'yxatdan o\'tish',
+            signup: "Ro'yxatdan o'tish",
             cabinet:"Mening sahifam"
         },
         hero: {
