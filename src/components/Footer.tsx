@@ -50,7 +50,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="font-semibold mb-4">Follow Us</h3>
+            <h3 className="font-semibold mb-4">{t("footer.followUs")}</h3>
             <div className="flex space-x-4">
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><FaXTwitter/></a>
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><FaLinkedin/></a>

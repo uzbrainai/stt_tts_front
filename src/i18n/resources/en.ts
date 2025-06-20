@@ -80,7 +80,8 @@ export const resourceEn = {
             description: 'Leading provider of AI voice technologies',
             links: 'Quick Links',
             contact: 'Contact Info',
-            rights: 'All rights reserved.'
+            rights: 'All rights reserved.',
+            followUs:"Follow Us"
         }
     }
 }

@@ -80,7 +80,8 @@ export const resourceUz = {
             description: 'Ovozli AI texnologiyalarining yetakchi ta\'minlovchisi',
             links: 'Tezkor havolalar',
             contact: 'Aloqa ma\'lumotlari',
-            rights: 'Barcha huquqlar himoyalangan.'
+            rights: 'Barcha huquqlar himoyalangan.',
+            followUs:"Bizni kuzating"
         }
     }
 }
