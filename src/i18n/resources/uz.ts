@@ -11,15 +11,35 @@ export const resourceUz = {
             contact: 'Aloqa',
             login: 'Kirish',
             signup: 'Ro\'yxatdan o\'tish',
-            cabinet:"Mening sahifam"
+            cabinet: "Mening sahifam"
         },
         hero: {
             title: 'Ilg\'or Ovozli AI Texnologiyalari',
             subtitle: 'Nutqdan matnga, matndan nutqga, ovozli suv belgilari va ovozli autentifikatsiya bo\'yicha yetakchi yechimlar',
             cta: 'Yechimlarimizni O\'rganish'
         },
+        question: {
+            text: "Nima uchun Ovozli AI yechimlarimizni tanlaysiz?",
+            v1: {
+                title: "Yuqori aniqlik",
+                description: "Ilg'or AI modellari bilan sanoatda yetakchi aniqlik ko'rsatkichlari"
+            },
+            v2: {
+                title: "Real vaqtda ishlov berish",
+                description: "Jonli ilovalar uchun past kechikishli ishlov berish"
+            },
+            v3: {
+                title: "Ko'p tilli qo'llab-quvvatlash",
+                description: "50 dan ortiq til va dialektlarni qo'llab-quvvatlash"
+            },
+            banner:{
+                title:"Ovozli AI texnologiyasi",
+                description:"Ilg'or mashina o'rganish tomonidan quvvatlanadi"
+            }
+        },
         products: {
             title: 'Bizning Mahsulotlarimiz',
+            description: "Zamonaviy dunyo uchun zamonaviy AI ovozli texnologiyalari",
             stt: {
                 title: 'Nutqdan Matnga',
                 description: 'Og\'zaki nutqni yuqori aniqlik va real vaqt ishlov berish bilan yozma matnga aylantiring.'
@@ -44,7 +64,7 @@ export const resourceUz = {
                 password: 'Parol',
                 submit: 'Kirish',
                 signup: 'Hisobingiz yo\'qmi? Ro\'yxatdan o\'ting',
-                description:"Hisobingizga kirish uchun hisob ma'lumotlaringizni kiriting"
+                description: "Hisobingizga kirish uchun hisob ma'lumotlaringizni kiriting"
             },
             signup: {
                 title: 'Hisob Yaratish',

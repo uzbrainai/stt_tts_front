@@ -1,4 +1,4 @@
-export const resourceEn={
+export const resourceEn = {
     translation: {
         nav: {
             home: 'Home',
@@ -11,14 +11,34 @@ export const resourceEn={
             contact: 'Contact',
             login: 'Login',
             signup: 'Sign Up',
-            cabinet:"My page"
+            cabinet: "My page"
         },
         hero: {
             title: 'Advanced Voice AI Technologies',
             subtitle: 'Leading solutions in Speech-to-Text, Text-to-Speech, Voice Watermarking, and Voice Authentication',
             cta: 'Explore Our Solutions'
         },
+        question:{
+            text:"Why Choose Our Voice AI Solutions?",
+            v1: {
+                title: "High Accuracy",
+                description: "Industry-leading accuracy rates with advanced AI models"
+            },
+            v2: {
+                title: "Real-time Processing",
+                description: "Low-latency processing for live applications"
+            },
+            v3: {
+                title: "Multilingual Support",
+                description: "Support for 50+ languages and dialects"
+            },
+            banner:{
+                title:"Voice AI Technology",
+                description:"Powered by advanced machine learning"
+            }
+        },
         products: {
+            description: "Cutting-edge AI voice technologies for the modern world",
             title: 'Our Products',
             stt: {
                 title: 'Speech-to-Text',
@@ -44,7 +64,7 @@ export const resourceEn={
                 password: 'Password',
                 submit: 'Sign In',
                 signup: "Don't have an account? Sign up",
-                description:"Enter your credentials to access your account"
+                description: "Enter your credentials to access your account"
             },
             signup: {
                 title: 'Create Your Account',

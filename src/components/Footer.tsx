@@ -3,6 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import logo from "@/assets/logo.png";
+import {FaGithub, FaLinkedin} from "react-icons/fa";
+import {FaXTwitter} from "react-icons/fa6";
 
 const Footer = () => {
   const { t } = useTranslation();
@@ -41,24 +43,24 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>contact@voiceai.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>123 AI Street, Tech City</li>
+              <li>info@uzbrainai.uz</li>
+              <li>+998(94) 123 45 67</li>
+              <li>Toshkent, Yangi Darxon 65/14</li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">Twitter</a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">LinkedIn</a>
-              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors">GitHub</a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><FaXTwitter/></a>
+              <a href="#" className="text-muted-foreground hover:text-foreground transition-colors"><FaLinkedin/></a>
+              <a href="https://github.com/uzbrainai" className="text-muted-foreground hover:text-foreground transition-colors"><FaGithub/></a>
             </div>
           </div>
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
-          <p>&copy; 2024 VoiceAI. {t('footer.rights')}</p>
+          <p>&copy; 2025 UzBrainAI. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>

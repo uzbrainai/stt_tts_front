@@ -24,7 +24,7 @@ const Home = () => {
                 <Link to="/products">{t('hero.cta')}</Link>
               </Button>
               <Button size="lg" variant="outline" asChild className="w-full sm:w-auto">
-                <Link to="/contact">Contact Us</Link>
+                <Link to="/contact">{t("nav.contact")}</Link>
               </Button>
             </div>
           </div>
@@ -41,7 +41,7 @@ const Home = () => {
       <section className="container mx-auto px-4">
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-2xl md:text-4xl font-bold mb-4">{t('products.title')}</h2>
-          <p className="text-lg md:text-xl text-muted-foreground">Cutting-edge AI voice technologies for the modern world</p>
+          <p className="text-lg md:text-xl text-muted-foreground">{t('products.description')}</p>
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
@@ -84,15 +84,15 @@ const Home = () => {
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="space-y-4 md:space-y-6 order-2 lg:order-1">
-              <h2 className="text-2xl md:text-4xl font-bold">Why Choose Our Voice AI Solutions?</h2>
+              <h2 className="text-2xl md:text-4xl font-bold">{t("question.text")}</h2>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mt-0.5 flex-shrink-0">
                     <span className="text-white text-xs">✓</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm md:text-base">High Accuracy</h3>
-                    <p className="text-muted-foreground text-sm md:text-base">Industry-leading accuracy rates with advanced AI models</p>
+                    <h3 className="font-semibold text-sm md:text-base">{t("question.v1.title")}</h3>
+                    <p className="text-muted-foreground text-sm md:text-base">{t("question.v1.description")}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -100,8 +100,8 @@ const Home = () => {
                     <span className="text-white text-xs">✓</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm md:text-base">Real-time Processing</h3>
-                    <p className="text-muted-foreground text-sm md:text-base">Low-latency processing for live applications</p>
+                    <h3 className="font-semibold text-sm md:text-base">{t("question.v2.title")}</h3>
+                    <p className="text-muted-foreground text-sm md:text-base">{t("question.v2.description")}</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
@@ -109,8 +109,8 @@ const Home = () => {
                     <span className="text-white text-xs">✓</span>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-sm md:text-base">Multilingual Support</h3>
-                    <p className="text-muted-foreground text-sm md:text-base">Support for 50+ languages and dialects</p>
+                    <h3 className="font-semibold text-sm md:text-base">{t("question.v3.title")}</h3>
+                    <p className="text-muted-foreground text-sm md:text-base">{t("question.v3.description")}</p>
                   </div>
                 </div>
               </div>
@@ -119,8 +119,8 @@ const Home = () => {
               <div className="aspect-square rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 p-6 md:p-8 flex items-center justify-center">
                 <div className="text-center text-white">
                   <div className="text-4xl md:text-6xl mb-4">🎤</div>
-                  <h3 className="text-xl md:text-2xl font-bold mb-2">Voice AI Technology</h3>
-                  <p className="opacity-90 text-sm md:text-base">Powered by advanced machine learning</p>
+                  <h3 className="text-xl md:text-2xl font-bold mb-2">{t("question.banner.title")}</h3>
+                  <p className="opacity-90 text-sm md:text-base">{t("question.banner.description")}</p>
                 </div>
               </div>
             </div>
