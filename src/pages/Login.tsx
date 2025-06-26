@@ -12,6 +12,7 @@ import instance from "@/config/axios_config";
 import {useAuthStore} from "@/store/authStore";
 import logo from "@/assets/logo.png";
 import {GoogleLogin, GoogleOAuthProvider} from "@react-oauth/google";
+import i18n from "@/i18n";
 
 const Login = () => {
     const {t} = useTranslation();
@@ -165,7 +166,7 @@ const Login = () => {
                             clientId="154733728278-4mcpp58mne2365mi1ig6qu62qncmjl70.apps.googleusercontent.com">
                             <GoogleLogin
                                 text={"signin_with"}
-                                locale={"uz"}
+                                locale={i18n.language}
                                 onSuccess={handleSuccess}
                                 onError={() => console.log("Login Failed")}
                             />

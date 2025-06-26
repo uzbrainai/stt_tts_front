@@ -220,7 +220,7 @@ const Signup = () => {
 
                             <Button disabled={loadingSubmit} type="submit"
                                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                                {loadingSubmit ? "Submitting..." : ('auth.signup.submit')}
+                                {loadingSubmit ? "Submitting..." : t('auth.signup.submit')}
                             </Button>
                         </form>
 
