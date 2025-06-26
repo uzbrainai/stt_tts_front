@@ -18,8 +18,8 @@ export const resourceEn = {
             subtitle: 'Leading solutions in Speech-to-Text, Text-to-Speech, Voice Watermarking, and Voice Authentication',
             cta: 'Explore Our Solutions'
         },
-        question:{
-            text:"Why Choose Our Voice AI Solutions?",
+        question: {
+            text: "Why Choose Our Voice AI Solutions?",
             v1: {
                 title: "High Accuracy",
                 description: "Industry-leading accuracy rates with advanced AI models"
@@ -32,9 +32,9 @@ export const resourceEn = {
                 title: "Multilingual Support",
                 description: "Support for 50+ languages and dialects"
             },
-            banner:{
-                title:"Voice AI Technology",
-                description:"Powered by advanced machine learning"
+            banner: {
+                title: "Voice AI Technology",
+                description: "Powered by advanced machine learning"
             }
         },
         products: {
@@ -69,11 +69,15 @@ export const resourceEn = {
             signup: {
                 title: 'Create Your Account',
                 name: 'Full Name',
-                email: 'Username or email',
+                email: 'Email',
+                username: 'Username',
+                phone: 'Phone',
+                code: "Verification code",
                 password: 'Password',
                 confirmPassword: 'Confirm Password',
                 submit: 'Sign Up',
-                login: 'Already have an account? Sign in'
+                login: 'Already have an account? Sign in',
+                submit_code: "Submit code!"
             }
         },
         footer: {
@@ -81,7 +85,7 @@ export const resourceEn = {
             links: 'Quick Links',
             contact: 'Contact Info',
             rights: 'All rights reserved.',
-            followUs:"Follow Us"
+            followUs: "Follow Us"
         }
     }
 }

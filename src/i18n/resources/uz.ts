@@ -69,11 +69,15 @@ export const resourceUz = {
             signup: {
                 title: 'Hisob Yaratish',
                 name: 'To\'liq ism',
-                email: 'Username yoki elektron pochta',
+                email: 'Elektron pochta',
+                phone: 'Telefon raqam orqali',
+                username: 'Username',
                 password: 'Parol',
+                code:"Tasdiqlash kodi",
                 confirmPassword: 'Parolni tasdiqlash',
                 submit: 'Ro\'yxatdan o\'tish',
-                login: 'Hisobingiz bormi? Kirish'
+                login: 'Hisobingiz bormi? Kirish',
+                submit_code: "Kodni yuboring!"
             }
         },
         footer: {
