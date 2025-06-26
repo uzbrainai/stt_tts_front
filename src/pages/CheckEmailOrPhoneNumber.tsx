@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {useTranslation} from 'react-i18next';
 import {Button} from '@/components/ui/button';
@@ -20,8 +20,18 @@ export const CheckEmailOrPhoneNumber = () => {
     const {t} = useTranslation();
     const {type} = useParams();
     const [expired, setExpired] = useState(null);
-    const [checkId, setCheckId] = useState()
+    const [checkId, setCheckId] = useState<number>()
     const navigate = useNavigate();
+
+    useEffect(() => {
+        let split = type?.split("_");
+        if (type?.startsWith("phone")) {
+            setCheckId(Number(split?.[split?.length - 1]));
+            setExpired(Number(split?.[split?.length - 2]));
+        } else {
+            setExpired(Number(split?.[split?.length - 1]));
+        }
+    }, [type])
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -30,10 +40,10 @@ export const CheckEmailOrPhoneNumber = () => {
             let resp = await instance({
                 method: "post",
                 url: type?.startsWith("email") ? "/auth/check-email" : "/auth/check-phone",
-                params: type?.startsWith("email")?{
+                params: type?.startsWith("email") ? {
                     email: type?.split("_")?.[1],
                     code: data.get("code")
-                }:{
+                } : {
                     phoneNumber: type?.split("_")?.[1],
                     code: data.get("code"),
                     checkId
@@ -59,10 +69,14 @@ export const CheckEmailOrPhoneNumber = () => {
                 }
             });
             if (resp?.data?.status === 1) {
-                setExpired(resp?.data?.data?.expireDate)
+                let split = type?.split("_");
                 if (type?.startsWith("phone")) {
-                    setCheckId(resp?.data?.data?.checkId);
+                    split[split?.length - 1] = resp?.data?.data?.checkId;
+                    split[split?.length - 2] = resp?.data?.data?.expireDate;
+                } else {
+                    split[split?.length - 1] = resp?.data?.data?.expireDate+5*60*1000;
                 }
+                navigate("/check/" + split?.join("_"))
                 message.success("Success");
             } else {
                 message.error(resp?.data?.message);

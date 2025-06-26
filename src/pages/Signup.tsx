@@ -39,7 +39,13 @@ const Signup = () => {
                 data: data
             });
             if (resp?.data?.status === 1) {
-                navigate("/check/" + emailOrPhone + "_" + resp?.data?.data?.[emailOrPhone === "email" ? "email" : "phoneNumber"]);
+                let link = "/check/" + emailOrPhone + "_" + resp?.data?.data?.[emailOrPhone === "email" ? "email" : "phoneNumber"];
+                if (emailOrPhone === "phone") {
+                    link += "_" + resp?.data?.data?.expireDate + "_" + resp?.data?.data?.checkId
+                } else {
+                    link += "_" + resp?.data?.data?.expireDate
+                }
+                navigate(link);
             }
         } else {
             message.error("Passwords not matches!");
