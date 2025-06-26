@@ -12,6 +12,7 @@ import instance from "@/config/axios_config";
 import {ACCESS_TOKEN} from "@/config/constants";
 import {useAuthStore} from "@/store/authStore";
 import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
+import i18n from "@/i18n";
 
 const Signup = () => {
     const {t} = useTranslation();
@@ -28,6 +29,7 @@ const Signup = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setLoadingSubmit(true)
         let data = new FormData(e?.target);
         if (emailOrPhone === "email") {
             data.append("isGoogleAuth", "true")
@@ -46,9 +48,13 @@ const Signup = () => {
                     link += "_" + resp?.data?.data?.expireDate
                 }
                 navigate(link);
+            } else {
+                message?.error(resp?.data?.message);
             }
+            setLoadingSubmit(false)
         } else {
             message.error("Passwords not matches!");
+            setLoadingSubmit(false)
         }
     };
 
@@ -62,6 +68,7 @@ const Signup = () => {
     const handleSuccess = async (e) => {
         let idToken = e?.credential
         try {
+            setLoading(true);
             let resp = await instance({
                 url: "auth/google",
                 method: "post",
@@ -227,12 +234,14 @@ const Signup = () => {
                                 </div>
                             </div>
 
-                            <div className="mt-6 grid grid-cols-1 gap-3">
+                            <div className="mt-6 flex justify-center gap-3">
                                 <GoogleOAuthProvider
                                     clientId="154733728278-4mcpp58mne2365mi1ig6qu62qncmjl70.apps.googleusercontent.com">
                                     <GoogleLogin
+                                        shape={"rectangular"}
+                                        size={"large"}
                                         text={"signup_with"}
-                                        locale={"uz"}
+                                        locale={i18n.language}
                                         onSuccess={handleSuccess}
                                         onError={() => console.log("Login Failed")}
                                     />

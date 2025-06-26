@@ -160,7 +160,7 @@ const Login = () => {
                             {loading ? 'Signing in...' : t('auth.login.submit')}
                         </Button>
                     </form>
-                    <div className="mt-6 text-center">
+                    <div className="mt-6 text-center flex justify-center">
                         <GoogleOAuthProvider
                             clientId="154733728278-4mcpp58mne2365mi1ig6qu62qncmjl70.apps.googleusercontent.com">
                             <GoogleLogin
@@ -170,6 +170,8 @@ const Login = () => {
                                 onError={() => console.log("Login Failed")}
                             />
                         </GoogleOAuthProvider>
+                    </div>
+                    <div className="flex justify-center">
                         <p className="text-sm mt-2 text-muted-foreground">
                             {t('auth.login.signup')}{' '}
                             <Link to="/signup" className="text-blue-600 hover:underline">
