@@ -1,7 +1,10 @@
 
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
 const Testimonials = () => {
+  const {t}=useTranslation()
+
   const testimonials = [
     {
       id: 1,
@@ -86,11 +89,11 @@ const Testimonials = () => {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="text-center mb-16">
-        <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          What Our Clients Say
+        <h1 className="text-5xl pb-3 font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          {t("What Our Clients Say")}
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-          Discover how leading companies are transforming their businesses with our voice AI solutions
+          {t("Discover how leading companies are transforming their businesses with our voice AI solutions")}
         </p>
       </div>
 
@@ -100,7 +103,7 @@ const Testimonials = () => {
           {stats.map((stat, index) => (
             <div key={index} className="text-center">
               <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
-              <div className="text-muted-foreground">{stat.label}</div>
+              <div className="text-muted-foreground">{t(stat.label)}</div>
             </div>
           ))}
         </div>
@@ -130,7 +133,7 @@ const Testimonials = () => {
                 </div>
                 <div>
                   <div className="font-semibold">{testimonial.name}</div>
-                  <div className="text-sm text-muted-foreground">{testimonial.role}</div>
+                  <div className="text-sm text-muted-foreground">{t(testimonial.role)}</div>
                   <div className="text-sm text-muted-foreground">{testimonial.company}</div>
                 </div>
               </div>
@@ -138,7 +141,7 @@ const Testimonials = () => {
               {/* Project Tag */}
               <div className="mt-4 pt-4 border-t">
                 <span className="text-xs font-medium px-3 py-1 rounded-full bg-primary/10 text-primary">
-                  {testimonial.project}
+                  {t(testimonial.project)}
                 </span>
               </div>
             </div>
@@ -149,9 +152,9 @@ const Testimonials = () => {
       {/* Trusted By Section */}
       <section className="mb-20">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Trusted by Leading Companies</h2>
+          <h2 className="text-3xl font-bold mb-4">{t("Trusted by Leading Companies")}</h2>
           <p className="text-muted-foreground">
-            Join hundreds of companies already using our voice AI solutions
+            {t("Join hundreds of companies already using our voice AI solutions")}
           </p>
         </div>
 
@@ -170,35 +173,34 @@ const Testimonials = () => {
         <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-8 md:p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-4">Success Story</h2>
+              <h2 className="text-3xl font-bold mb-4">{t("Success Story")}</h2>
               <h3 className="text-xl font-semibold mb-4 text-primary">
-                HealthTech Innovation: 50% Reduction in Documentation Time
+                {t("HealthTech Innovation: 50% Reduction in Documentation Time")}
               </h3>
               <p className="text-muted-foreground mb-6">
-                Learn how HealthTech Innovation implemented our voice AI solutions to streamline 
-                medical documentation, resulting in significant time savings and improved patient care.
+                {t("Learn how HealthTech Innovation implemented our voice AI solutions to streamline medical documentation, resulting in significant time savings and improved patient care.")}
               </p>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center space-x-2">
                   <span className="text-green-500">✓</span>
-                  <span>50% reduction in documentation time</span>
+                  <span>{t("50 % reduction in documentation time")}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-green-500">✓</span>
-                  <span>99.2% accuracy in medical transcription</span>
+                  <span>{t("99.2 % accuracy in medical transcription")}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className="text-green-500">✓</span>
-                  <span>Improved patient satisfaction scores</span>
+                  <span>{t("Improved patient satisfaction scores")}</span>
                 </div>
               </div>
             </div>
             <div className="text-center">
               <div className="bg-white/10 rounded-2xl p-8 backdrop-blur">
                 <div className="text-6xl mb-4">📊</div>
-                <div className="text-2xl font-bold mb-2">Download Full Case Study</div>
+                <div className="text-2xl font-bold mb-2">{t("Download Full Case Study")}</div>
                 <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-                  Get Case Study
+                  {t("Get Case Study")}
                 </button>
               </div>
             </div>
@@ -209,17 +211,17 @@ const Testimonials = () => {
       {/* CTA Section */}
       <section className="text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-4xl font-bold mb-4">Ready to Join Our Success Stories?</h2>
+          <h2 className="text-4xl font-bold mb-4">{t("Ready to Join Our Success Stories?")}</h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Start your voice AI journey today and see why companies trust us with their critical applications.
+            {t("Start your voice AI journey today and see why companies trust us with their critical applications.")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all">
-              Start Free Trial
+              {t("Start Free Trial")}
             </button>
-            <button className="px-8 py-3 border border-border rounded-lg hover:bg-accent transition-colors">
-              Schedule Demo
-            </button>
+            {/*<button className="px-8 py-3 border border-border rounded-lg hover:bg-accent transition-colors">*/}
+            {/*  {t("Schedule Demo")}*/}
+            {/*</button>*/}
           </div>
         </div>
       </section>

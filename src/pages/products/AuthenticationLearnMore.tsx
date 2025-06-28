@@ -64,7 +64,7 @@ const AuthenticationLearnMore = () => {
                 <Button size="lg" className="bg-orange-600 hover:bg-orange-700">
                   Try Free Demo
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-orange-900">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white text-orange-900">
                   View Documentation
                 </Button>
               </div>

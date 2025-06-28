@@ -112,7 +112,7 @@ const App = () => {
             {/* Dashboard routes with dashboard layout */}
             {!isAuth ? "" : <Route element={<DashboardLayout/>} path="/dashboard">
                 <Route path="" element={<Dashboard/>}/>
-                <Route path="stt" element={<STTBot/>}/>
+                    <Route path="stt" element={<STTBot/>}/>
                 <Route path="tts" element={<TTSBot/>}/>
                 <Route path="watermarking"
                        element={<WatermarkingBot/>}/>
