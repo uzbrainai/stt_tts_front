@@ -36,6 +36,7 @@ import NewsView from "@/pages/NewsView";
 import ArticleView from "@/pages/ArticleView";
 import VoiceDetectionBot from "@/pages/dashboard/VoiceDetectionBot";
 import MusicDetectionBot from "@/pages/dashboard/MusicDetectionBot";
+import {CheckEmailOrPhoneNumber} from "@/pages/CheckEmailOrPhoneNumber";
 
 const App = () => {
     const {isAuth, setUserAndAuth, setLoading} = useAuthStore(s => s);
@@ -108,6 +109,7 @@ const App = () => {
             {/* Auth routes without layout */}
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
+            <Route path="/check/:type" element={<CheckEmailOrPhoneNumber/>}/>
 
             {/* Dashboard routes with dashboard layout */}
             {!isAuth ? "" : <Route element={<DashboardLayout/>} path="/dashboard">
@@ -118,8 +120,8 @@ const App = () => {
                        element={<WatermarkingBot/>}/>
                 <Route path="authentication"
                        element={<AuthenticationBot/>}/>
-                <Route path="voice-detection" element={<VoiceDetectionBot />} />
-                <Route path="music-detection" element={<MusicDetectionBot />} />
+                <Route path="voice-detection" element={<VoiceDetectionBot/>}/>
+                <Route path="music-detection" element={<MusicDetectionBot/>}/>
                 <Route path="api" element={<DeveloperAPI/>}/>
                 <Route path="account" element={<Account/>}/>
                 <Route path="billing" element={<Billing/>}/>
