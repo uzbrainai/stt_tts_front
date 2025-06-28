@@ -66,7 +66,7 @@ const NewsView = () => {
     }
   ];
 
-  const newsItem = newsItems.find(item => item.id === parseInt(id || '1'));
+  const newsItem = newsItems[0];
 
   if (!newsItem) {
     return (

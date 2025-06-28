@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const News = () => {
+    const {t} = useTranslation();
     const [filter, setFilter] = useState("All");
     const newsItems = [
         {
@@ -62,7 +64,7 @@ const News = () => {
                     Latest News
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                    Stay updated with the latest developments, partnerships, and innovations in voice AI technology
+                    {t("Stay updated with the latest developments, partnerships, and innovations in voice AI technology")}
                 </p>
             </div>
             <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -72,7 +74,7 @@ const News = () => {
                         onClick={() => setFilter(category)}
                         className={`px-4 py-2 ${filter === category ? "bg-accent" : ""} rounded-full border hover:bg-accent hover:text-accent-foreground transition-colors`}
                     >
-                        {category}
+                        {t(category)}
                     </button>
                 ))}
             </div>
@@ -85,25 +87,25 @@ const News = () => {
                                 <div className="text-3xl mb-2"><img className="h-[250px]" src={item.image} alt="ss"/>
                                 </div>
                                 <span className="text-xs font-medium px-3 py-1 rounded-full bg-primary/10 text-primary">
-                  {item.category}
-                </span>
+                                  {t(item.category)}
+                                </span>
                             </div>
 
                             <h2 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-3">
-                                {item.title}
+                                {t(item.title)}
                             </h2>
 
                             <p className="text-muted-foreground mb-4 line-clamp-3">
-                                {item.excerpt}
+                                {t(item.excerpt)}
                             </p>
 
                             <div className="flex items-center justify-between">
-                                <time className="text-sm text-muted-foreground">{item.date}</time>
+                                <time className="text-sm text-muted-foreground">{t(item.date)}</time>
                                 <Link
                                     to={`/news/${item.id}`}
                                     className="text-sm font-medium text-primary hover:underline"
                                 >
-                                    Read More →
+                                    {t("Read more")} →
                                 </Link>
                             </div>
                         </div>
@@ -114,9 +116,9 @@ const News = () => {
             {/* Newsletter Signup */}
             <section className="mt-20 text-center">
                 <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-2xl p-8 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-4">Stay Informed</h2>
+                    <h2 className="text-3xl font-bold mb-4">{t("Stay Informed")}</h2>
                     <p className="text-muted-foreground mb-6">
-                        Subscribe to our newsletter for the latest voice AI news and updates
+                        {t("Subscribe to our newsletter for the latest voice AI news and updates")}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                         <input
@@ -126,7 +128,7 @@ const News = () => {
                         />
                         <button
                             className="px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-                            Subscribe
+                            {t("Subscribe")}
                         </button>
                     </div>
                 </div>

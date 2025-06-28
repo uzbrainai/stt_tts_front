@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const Articles = () => {
+    const {t} = useTranslation()
     const [filter, setFilter] = useState("All");
     const articles = [
         {
@@ -72,16 +74,17 @@ const Articles = () => {
         }
     ];
 
+
     const categories = ["All", "Technology", "Security", "Research", "Industry", "Development"];
 
     return (
         <div className="container mx-auto px-4 py-12">
             <div className="text-center mb-16">
-                <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Knowledge Hub
+                <h1 className="text-5xl pb-3 font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    {t("Knowledge Hub")}
                 </h1>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                    In-depth articles, technical insights, and expert perspectives on voice AI technology
+                    {t("In-depth articles, technical insights, and expert perspectives on voice AI technology")}
                 </p>
             </div>
 
@@ -93,7 +96,7 @@ const Articles = () => {
                         onClick={() => setFilter(category)}
                         className={`px-4 py-2 ${filter === category ? "bg-accent" : ""} rounded-full border hover:bg-accent hover:text-accent-foreground transition-colors`}
                     >
-                        {category}
+                        {t(category)}
                     </button>
                 ))}
             </div>
@@ -139,38 +142,38 @@ const Articles = () => {
                                 </div>
                                 <span
                                     className="text-xs font-medium px-3 py-1 rounded-full bg-accent text-accent-foreground">
-                  {article.category}
+                  {t(article.category)}
                 </span>
                             </div>
 
                             <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2">
-                                {article.title}
+                                {t(article.title)}
                             </h3>
 
                             <p className="text-muted-foreground mb-4 line-clamp-3">
-                                {article.excerpt}
+                                {t(article.excerpt)}
                             </p>
 
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {article.tags.map((tag) => (
                                     <span key={tag}
                                           className="text-xs px-2 py-1 rounded bg-muted text-muted-foreground">
-                    {tag}
+                    {t(tag)}
                   </span>
                                 ))}
                             </div>
 
                             <div className="flex items-center justify-between text-sm text-muted-foreground">
                                 <div className="flex items-center space-x-2">
-                                    <span>{article.author}</span>
+                                    <span>{t(article.author)}</span>
                                     <span>•</span>
-                                    <span>{article.readTime}</span>
+                                    <span>{t(article.readTime)}</span>
                                 </div>
                                 <Link
                                     to={`/articles/${article.id}`}
                                     className="text-sm font-medium text-primary hover:underline"
                                 >
-                                    Read More →
+                                    {t("Read more")} →
                                 </Link>
                             </div>
                         </div>
@@ -181,14 +184,13 @@ const Articles = () => {
             {/* Call to Action */}
             <section className="mt-20 text-center">
                 <div className="bg-muted/30 rounded-2xl p-8 max-w-2xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-4">Want to Contribute?</h2>
+                    <h2 className="text-3xl font-bold mb-4">{t("Want to Contribute?")}</h2>
                     <p className="text-muted-foreground mb-6">
-                        Share your expertise with the voice AI community. We welcome technical articles, case studies,
-                        and research insights.
+                        {t("Share your expertise with the voice AI community. We welcome technical articles, case studies, and research insights.")}
                     </p>
                     <button
                         className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors">
-                        Submit Article
+                        {t("Submit Article")}
                     </button>
                 </div>
             </section>
