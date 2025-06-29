@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Button} from '@/components/ui/button';
 import {Bot, History, FileText} from 'lucide-react';
@@ -7,6 +7,7 @@ import {message, Switch} from "antd";
 import {FileUpload} from "@/components/ui/fileUpload";
 import {VoiceRecorder} from "@/components/ui/voiceRecorder";
 import instance from "@/config/axios_config";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 const STTBot = () => {
     const contentRef = useRef<any>()
@@ -14,7 +15,8 @@ const STTBot = () => {
     const [result, setResult] = useState("Natija bu yerda ko'rinadi!!!");
     const [fileType, setFileType] = useState<"file" | "record">("file");
     const [file, setFile] = useState<File | null>(null);
-
+    const [lang, setLang] = useState("uz");
+    const [data, setData] = useState<any>()
     const history = [
         {
             id: 1,
@@ -39,19 +41,42 @@ const STTBot = () => {
         },
     ];
 
+    useEffect(() => {
+        (async () => {
+            try {
+                let resp = await instance({
+                    method: "get",
+                    url: '/ai-response',
+                    params: {
+                        botId: 4
+                    }
+                });
+                if (resp?.data?.status === 1) {
+                    setData(resp?.data?.data)
+                } else {
+                    message.error(resp?.data.message);
+                }
+            } catch (e) {
+                console.log(e);
+                message.error("Error!");
+            }
+        })()
+    }, [])
+
     const handleProcess = async () => {
         setIsProcessing(true);
         try {
             let data = new FormData();
             data.append("botId", "4");
             data.append("file", file);
+            data.append("lang", lang);
             let reps = await instance({
                 method: "post",
                 url: "/use-bot",
                 data
             });
             if (reps?.data?.status === 1) {
-                setResult(reps?.data?.data?.data?.text)
+                setResult(reps?.data?.data?.data?.data?.transcription)
             }
             setIsProcessing(false);
         } catch (e: any) {
@@ -62,6 +87,11 @@ const STTBot = () => {
     };
 
     console.log(file);
+
+    const languageOptions = [
+        {value: 'uz', label: <span>O'zbek</span>},
+        {value: 'en', label: <span>English</span>}
+    ];
 
     return (
         <div className="space-y-4 md:space-y-6 p-4 md:p-0">
@@ -88,9 +118,28 @@ const STTBot = () => {
                                                           onChange={(e) => setFileType(e ? "record" : "file")}
                                                           checkedChildren="Record" unCheckedChildren="File"/>
                             </CardTitle>
-                            <CardDescription className="text-sm">{fileType === "file" ? "Upload" : "Record"} an audio
-                                file to convert to
-                                text</CardDescription>
+
+                            <CardDescription className="text-sm flex items-center justify-between">
+                                <div>
+                                    {fileType === "file" ? "Upload" : "Record"} an audio
+                                    file to convert to
+                                    text
+                                </div>
+                                <div>
+                                    <Select value={lang} onValueChange={(l) => setLang(l)}>
+                                        <SelectTrigger className="w-[120px]">
+                                            <SelectValue/>
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {languageOptions.map((option) => (
+                                                <SelectItem key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </CardDescription>
                         </CardHeader>
                         <CardContent ref={contentRef} className="space-y-4">
                             {
@@ -128,17 +177,17 @@ const STTBot = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-3 md:space-y-4">
-                            {history.map((item) => (
+                            {data?.items.map((item) => (
                                 <div key={item.id} className="border rounded-lg p-2 md:p-3">
                                     <div
                                         className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-2">
-                                        <p className="text-xs md:text-sm font-medium break-words">{item.input}</p>
-                                        <span className="text-xs text-muted-foreground flex-shrink-0">{item.date}</span>
+                                        <p className="text-xs md:text-sm font-medium break-words">File name: {item?.fileStore?.fileName}</p>
+                                        <span className="text-xs text-muted-foreground flex-shrink-0">{new Date(item?.updatedAt).toLocaleString()}</span>
                                     </div>
                                     <p className="text-xs text-muted-foreground mb-2">
-                                        Duration: {item.duration}
+                                        Duration: {item?.data.duration??0}
                                     </p>
-                                    <p className="text-xs md:text-sm text-gray-700 break-words">{item.output}</p>
+                                    <p className="text-xs md:text-sm text-gray-700 break-words">{item.data?.transcription}</p>
                                 </div>
                             ))}
                         </div>
