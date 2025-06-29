@@ -232,7 +232,7 @@ const WatermarkingBot = () => {
                                     <div className="flex justify-between items-start mb-2">
                                         <p className="text-sm font-medium">Action: {item?.data?.mode ?? "none"}</p>
                                         {item?.data?.mode === "detect" ?
-                                            <p className={`text-sm font-medium rounded p-2 ${item?.data?.mode === "match" ? "bg-green-500" : "bg-red-500"}`}>Status: {item?.data?.match}</p> : ""}
+                                            <p className={`text-sm font-medium rounded p-2 ${item?.data?.match === "match" ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>Status: {item?.data?.match}</p> : ""}
                                     </div>
                                     <div className="flex justify-between">
                                         <a target={"_blank"} download="embeded_audio.vaw"
