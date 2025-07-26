@@ -163,7 +163,7 @@ const Login = () => {
                     </form>
                     <div className="mt-6 text-center flex justify-center">
                         <GoogleOAuthProvider
-                            clientId="154733728278-4mcpp58mne2365mi1ig6qu62qncmjl70.apps.googleusercontent.com">
+                            clientId="250339210889-9903v08ckdqfs37hgaimosk38eekkmdo.apps.googleusercontent.com">
                             <GoogleLogin
                                 text={"signin_with"}
                                 locale={i18n.language}

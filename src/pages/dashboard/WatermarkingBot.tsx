@@ -13,7 +13,7 @@ const WatermarkingBot = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [mode, setMode] = useState('embed');
     const [file, setFile] = useState<File | null>(null);
-    const [watermarkText, setWatermarkText] = useState<string>("")
+    // const [watermarkText, setWatermarkText] = useState<string>("")
     const [data, setData] = useState<any>();
     const [keyFiles, setKeyFiles] = useState<any>();
     const [refresh, setRefresh] = useState(false);
@@ -39,7 +39,9 @@ const WatermarkingBot = () => {
                 });
                 if (resp?.data?.status === 1) {
                     setKeyFiles(resp?.data?.data);
-                    setKeyFileId(resp?.data?.data?.items?.[0]?.keyFile?.id)
+                    if (!keyFileId) {
+                        setKeyFileId(resp?.data?.data?.items?.[0]?.keyFile?.id)
+                    }
                 } else {
                     message.error(resp?.data.message);
                 }
@@ -100,20 +102,20 @@ const WatermarkingBot = () => {
         }
     };
 
-    const generateKey = () => {
-        let sb = "";
-
-        for (let i = 0; i < 16; i++) {
-
-            let
-                index
-                    = (alphaNumericString.length
-                    * Math.random());
-
-            sb += alphaNumericString.charAt(index);
-        }
-        setWatermarkText(sb);
-    }
+    // const generateKey = () => {
+    //     let sb = "";
+    //
+    //     for (let i = 0; i < 16; i++) {
+    //
+    //         let
+    //             index
+    //                 = (alphaNumericString.length
+    //                 * Math.random());
+    //
+    //         sb += alphaNumericString.charAt(index);
+    //     }
+    //     setWatermarkText(sb);
+    // }
 
     return (
         <div className="space-y-6">
