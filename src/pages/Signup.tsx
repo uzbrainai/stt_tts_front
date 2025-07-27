@@ -236,7 +236,7 @@ const Signup = () => {
 
                             <div className="mt-6 flex justify-center gap-3">
                                 <GoogleOAuthProvider
-                                    clientId="154733728278-4mcpp58mne2365mi1ig6qu62qncmjl70.apps.googleusercontent.com">
+                                    clientId="250339210889-9903v08ckdqfs37hgaimosk38eekkmdo.apps.googleusercontent.com">
                                     <GoogleLogin
                                         shape={"rectangular"}
                                         size={"large"}
