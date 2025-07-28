@@ -3,6 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {Link, useNavigate} from 'react-router-dom';
 import {Button} from '@/components/ui/button';
 import {useAuthStore} from "@/store/authStore";
+import ScrollFade from '@/components/ui/scroll-fade';
 
 const Products = () => {
     const {t} = useTranslation();
@@ -82,19 +83,22 @@ const Products = () => {
 
     return (
         <div className="container mx-auto px-4 py-12">
-            <div className="text-center mb-16">
-                <h1 className="text-5xl pb-3 font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    {t('products.title')}
-                </h1>
-                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                    {t("Discover our comprehensive suite of AI-powered voice technologies designed to revolutionize how you interact with audio content.")}
-                </p>
-            </div>
+            <ScrollFade>
+                <div className="text-center mb-16">
+                    <h1 className="text-5xl pb-3 font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        {t('products.title')}
+                    </h1>
+                    <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                        {t("Discover our comprehensive suite of AI-powered voice technologies designed to revolutionize how you interact with audio content.")}
+                    </p>
+                </div>
+            </ScrollFade>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {products.map((product, index) => (
-                    <div key={product.id}
-                         className="group relative overflow-hidden rounded-2xl border bg-card hover:shadow-2xl transition-all duration-500">
+                    <ScrollFade key={product.id} delay={index * 100}>
+                        <div
+                             className="group relative overflow-hidden rounded-2xl border bg-card hover:shadow-2xl transition-all duration-500">
                         <div className="p-8">
                             <div
                                 className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${product.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
@@ -131,40 +135,49 @@ const Products = () => {
                         {/* Background decoration */}
                         <div
                             className="absolute top-0 right-0 w-32 h-32 -mr-16 -mt-16 rounded-full bg-gradient-to-br from-primary/5 to-transparent group-hover:scale-150 transition-transform duration-700"></div>
-                    </div>
+                        </div>
+                    </ScrollFade>
                 ))}
             </div>
 
             {/* Integration Section */}
-            <section className="mt-20 text-center">
-                <h2 className="text-4xl font-bold mb-8">{t("Easy Integration")}</h2>
-                <div className="bg-muted/30 rounded-2xl p-8 max-w-4xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="space-y-4">
-                            <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center mx-auto">
-                                <span className="text-white font-bold">1</span>
-                            </div>
-                            <h3 className="font-semibold">{t("Choose Your API")}</h3>
-                            <p className="text-muted-foreground text-sm">{t("Select the voice AI service that fits your needs")}</p>
-                        </div>
-                        <div className="space-y-4">
-                            <div
-                                className="w-12 h-12 rounded-lg bg-purple-500 flex items-center justify-center mx-auto">
-                                <span className="text-white font-bold">2</span>
-                            </div>
-                            <h3 className="font-semibold">{t("Integrate")}</h3>
-                            <p className="text-muted-foreground text-sm">{t("Use our simple REST APIs or SDKs")}</p>
-                        </div>
-                        <div className="space-y-4">
-                            <div className="w-12 h-12 rounded-lg bg-green-500 flex items-center justify-center mx-auto">
-                                <span className="text-white font-bold">3</span>
-                            </div>
-                            <h3 className="font-semibold">{t("Scale")}</h3>
-                            <p className="text-muted-foreground text-sm">{t("Deploy and scale your voice-enabled applications")}</p>
+            <ScrollFade delay={300}>
+                <section className="mt-20 text-center">
+                    <h2 className="text-4xl font-bold mb-8">{t("Easy Integration")}</h2>
+                    <div className="bg-muted/30 rounded-2xl p-8 max-w-4xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <ScrollFade delay={400}>
+                                <div className="space-y-4">
+                                    <div className="w-12 h-12 rounded-lg bg-blue-500 flex items-center justify-center mx-auto">
+                                        <span className="text-white font-bold">1</span>
+                                    </div>
+                                    <h3 className="font-semibold">{t("Choose Your API")}</h3>
+                                    <p className="text-muted-foreground text-sm">{t("Select the voice AI service that fits your needs")}</p>
+                                </div>
+                            </ScrollFade>
+                            <ScrollFade delay={500}>
+                                <div className="space-y-4">
+                                    <div
+                                        className="w-12 h-12 rounded-lg bg-purple-500 flex items-center justify-center mx-auto">
+                                        <span className="text-white font-bold">2</span>
+                                    </div>
+                                    <h3 className="font-semibold">{t("Integrate")}</h3>
+                                    <p className="text-muted-foreground text-sm">{t("Use our simple REST APIs or SDKs")}</p>
+                                </div>
+                            </ScrollFade>
+                            <ScrollFade delay={600}>
+                                <div className="space-y-4">
+                                    <div className="w-12 h-12 rounded-lg bg-green-500 flex items-center justify-center mx-auto">
+                                        <span className="text-white font-bold">3</span>
+                                    </div>
+                                    <h3 className="font-semibold">{t("Scale")}</h3>
+                                    <p className="text-muted-foreground text-sm">{t("Deploy and scale your voice-enabled applications")}</p>
+                                </div>
+                            </ScrollFade>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </ScrollFade>
         </div>
     );
 };
