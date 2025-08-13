@@ -39,7 +39,7 @@ import MusicDetectionBot from "@/pages/dashboard/MusicDetectionBot";
 import {CheckEmailOrPhoneNumber} from "@/pages/CheckEmailOrPhoneNumber";
 
 const App = () => {
-    const {isAuth, setUserAndAuth, setLoading} = useAuthStore(s => s);
+    const {isAuth, setUserAndAuth, setLoading, refreshAuth} = useAuthStore(s => s);
     const pathname = useLocation().pathname;
     const navigate = useNavigate();
 
@@ -65,12 +65,12 @@ const App = () => {
                                 lastName: data?.lastName,
                                 middleName: data?.middleName,
                                 roles: data?.roles,
+                                freeRequests:data?.freeRequests,
                                 requiredChangePassword: data?.requiredChangePassword,
                                 userAccount: data?.userAccount
                             },
                             permissions: data?.roles?.map((item: any) => item?.permissions)?.flat()
                         });
-                        message.success("Kirish tasdiqlandi!");
                         setLoading(false)
                     } else {
                         setLoading(false)
@@ -90,7 +90,7 @@ const App = () => {
                 setLoading(false)
             }
         })()
-    }, []);
+    }, [refreshAuth]);
 
     useEffect(() => {
         if (pathname?.startsWith("/dashboard")) {

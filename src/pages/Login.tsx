@@ -43,6 +43,7 @@ const Login = () => {
                         firstName: resData?.user?.firstName,
                         middleName: resData?.user?.middleName,
                         roles: resData?.user?.roles,
+                        freeRequests:resData?.user?.freeRequests,
                         requiredChangePassword: resData?.user?.requiredChangePassword,
                         userAccount: resData?.user?.userAccount
                     },
@@ -83,6 +84,7 @@ const Login = () => {
                         lastName: resData?.user?.lastName,
                         firstName: resData?.user?.firstName,
                         middleName: resData?.user?.middleName,
+                        freeRequests:resData?.user?.freeRequests,
                         roles: resData?.user?.roles,
                         requiredChangePassword: resData?.user?.requiredChangePassword,
                         userAccount: resData?.user?.userAccount

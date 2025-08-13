@@ -36,6 +36,9 @@ const DashboardLayout: React.FC = () => {
                                 </Link>
                             </div>
                             <div>
+                                {user?.freeRequests ? <Tag color="blue">
+                                    Free requests: {user?.freeRequests}
+                                </Tag> : ""}
                                 <Tag color="green">
                                     Balance: {user?.userAccount?.amount} so'm
                                 </Tag>

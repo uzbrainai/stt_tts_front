@@ -7,9 +7,11 @@ import {FileUpload} from "@/components/ui/fileUpload";
 import {message, Tag} from "antd";
 import instance from "@/config/axios_config";
 import {API_URL} from "@/config/constants";
+import {useAuthStore} from "@/store/authStore";
 
 let alphaNumericString = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const WatermarkingBot = () => {
+    const {refreshAuth, setRefreshAuth} = useAuthStore()
     const [isProcessing, setIsProcessing] = useState(false);
     const [mode, setMode] = useState('embed');
     const [file, setFile] = useState<File | null>(null);
@@ -63,13 +65,16 @@ const WatermarkingBot = () => {
                     }
                 });
                 if (resp?.data?.status === 1) {
-                    setData(resp?.data?.data)
+                    setData(resp?.data?.data);
+                    setRefreshAuth(!refreshAuth)
                 } else {
                     message.error(resp?.data.message);
                 }
             } catch (e) {
-                console.log(e);
-                message.error("Error!");
+                if (e?.response?.status === 422) {
+                    message?.error(e?.response?.data?.message)
+                } else
+                    message.error("Error!");
             }
         })()
     }, [refresh])
@@ -233,6 +238,11 @@ const WatermarkingBot = () => {
                                     </div>
                                     <div className="flex justify-between items-start mb-2">
                                         <p className="text-sm font-medium">Action: {item?.data?.mode ?? "none"}</p>
+                                        {item?.data?.mode === "detect" ?
+                                            <p className={`text-sm font-medium rounded p-2 ${item?.data?.match === "match" ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>Status: {item?.data?.match}</p> : ""}
+                                    </div>
+                                    <div className="flex justify-between items-start mb-2">
+                                        <p className="text-sm font-medium">Price: {item?.aiBot?.oneUsePrice} so'm</p>
                                         {item?.data?.mode === "detect" ?
                                             <p className={`text-sm font-medium rounded p-2 ${item?.data?.match === "match" ? "bg-green-500 text-white" : "bg-red-500 text-white"}`}>Status: {item?.data?.match}</p> : ""}
                                     </div>

@@ -4,7 +4,9 @@ export type authStoreType = {
     isAuth: boolean
     loading: boolean
     user: currentUserType | undefined
-    permissions: string[]
+    permissions: string[],
+    refreshAuth: boolean,
+    setRefreshAuth: (a: boolean) => void,
     setLoading: (isLoading: boolean) => void
     setAuth: (isAuth: boolean) => void
     setUserAndAuth: (data: { isAuth: boolean, user: currentUserType | undefined, permissions: string[] }) => void
@@ -22,6 +24,7 @@ export type currentUserType = {
     lastName: string,
     middleName: string,
     firstName: string,
+    freeRequests: number | null
     roles: Array<roleType>,
     username: string,
     requiredChangePassword: boolean,
@@ -40,6 +43,8 @@ export const useAuthStore = create<authStoreType>((setState) => ({
     user: undefined,
     loading: false,
     permissions: [],
+    refreshAuth: false,
+    setRefreshAuth: (a) => setState(() => ({refreshAuth: a})),
     setLoading: (b) => (setState(() => ({loading: b}))),
     setAuth: (isAuth) => (setState(() => ({isAuth}))),
     setUserAndAuth: (data) => (setState(() => ({isAuth: data.isAuth, user: data.user, permissions: data?.permissions})))

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
@@ -8,11 +8,37 @@ import {Upload, Music, Brain, AlertTriangle, CheckCircle} from 'lucide-react';
 import {message} from 'antd';
 import {FileUpload} from "@/components/ui/fileUpload";
 import instance from "@/config/axios_config";
+import {useAuthStore} from "@/store/authStore";
 
 const MusicDetectionBot = () => {
+    const {refreshAuth, setRefreshAuth} = useAuthStore()
     const [file, setFile] = useState<File | null>(null);
     const [analysisResult, setAnalysisResult] = useState<any | null>(null);
     const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [data, setData] = useState<any>();
+    const [refreshHistory, setRefreshHistory] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                let resp = await instance({
+                    method: "get",
+                    url: '/ai-response',
+                    params: {
+                        botId: 6
+                    }
+                });
+                if (resp?.data?.status === 1) {
+                    setData(resp?.data?.data)
+                } else {
+                    message.error(resp?.data.message);
+                }
+            } catch (e) {
+                console.log(e);
+                message.error("Error!");
+            }
+        })()
+    }, [refreshHistory])
 
     const submitData = async () => {
         setIsAnalyzing(true);
@@ -28,6 +54,8 @@ const MusicDetectionBot = () => {
                 });
                 if (resp?.data?.status === 1) {
                     setAnalysisResult(resp?.data?.data);
+                    setRefreshHistory(!refreshHistory);
+                    setRefreshAuth(!refreshAuth)
                 } else {
                     message.error(resp?.data?.message)
                 }
@@ -38,8 +66,11 @@ const MusicDetectionBot = () => {
             }
             setIsAnalyzing(false)
         } catch (e: any) {
-            console.log(e);
-            message.error("Error!");
+            console.log(e?.response?.status);
+            if (e?.response?.status === 422) {
+                message?.error(e?.response?.data?.message)
+            } else
+                message.error("Error!");
             setIsAnalyzing(false)
         }
     }
@@ -157,56 +188,63 @@ const MusicDetectionBot = () => {
                     )}
                 </CardContent>
             </Card>
+            <div>
+                <h4 className="text-2xl">History:</h4>
+                {
+                    data?.items?.map((itm: any) => {
+                        return <div className="space-y-4 p-4 border rounded-lg">
+                            <div className="flex items-center gap-2 justify-between">
+                                <div className="flex items-center gap-2">
+                                    {itm?.data?.final_label !== 'Real' ? (
+                                        <AlertTriangle className="h-5 w-5 text-red-500"/>
+                                    ) : (
+                                        <CheckCircle className="h-5 w-5 text-green-500"/>
+                                    )}
+                                    <h3 className="font-semibold">Detection Result</h3>
+                                </div>
+                                <div>
+                                    Date: {new Date(itm?.createdAt).toLocaleString()}
+                                </div>
+                            </div>
 
-            {/*<div className="grid md:grid-cols-2 gap-6">*/}
-            {/*    <Card>*/}
-            {/*        <CardHeader>*/}
-            {/*            <CardTitle>Recent Analyses</CardTitle>*/}
-            {/*        </CardHeader>*/}
-            {/*        <CardContent>*/}
-            {/*            <div className="space-y-3">*/}
-            {/*                <div className="flex justify-between items-center p-2 border rounded">*/}
-            {/*                    <span className="text-sm">electronic_track.mp3</span>*/}
-            {/*                    <span className="text-xs text-red-500">AI-Generated</span>*/}
-            {/*                </div>*/}
-            {/*                <div className="flex justify-between items-center p-2 border rounded">*/}
-            {/*                    <span className="text-sm">piano_composition.wav</span>*/}
-            {/*                    <span className="text-xs text-green-500">Human Composed</span>*/}
-            {/*                </div>*/}
-            {/*                <div className="flex justify-between items-center p-2 border rounded">*/}
-            {/*                    <span className="text-sm">jazz_improvisation.flac</span>*/}
-            {/*                    <span className="text-xs text-green-500">Human Composed</span>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </CardContent>*/}
-            {/*    </Card>*/}
+                            <div className="grid grid-cols-3 gap-4">
+                                <div>
+                                    <p className="text-sm text-muted-foreground">Classification</p>
+                                    <p className={`font-bold ${itm?.data?.final_label !== 'Real' ? 'text-red-500' : 'text-green-500'}`}>
+                                        {itm?.data?.final_label}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p className="text-sm text-muted-foreground">Confidence</p>
+                                    <p className="font-bold">{itm?.data?.mean_confidence ?? 0}%</p>
+                                </div>
+                                {/*<div>*/}
+                                {/*    <p className="text-sm text-muted-foreground">Genre</p>*/}
+                                {/*    <p className="font-bold text-indigo-600">{itm?.data?.final_label}</p>*/}
+                                {/*</div>*/}
+                            </div>
 
-            {/*    <Card>*/}
-            {/*        <CardHeader>*/}
-            {/*            <CardTitle>Detection Statistics</CardTitle>*/}
-            {/*        </CardHeader>*/}
-            {/*        <CardContent>*/}
-            {/*            <div className="space-y-4">*/}
-            {/*                <div className="flex justify-between">*/}
-            {/*                    <span>Total Analyses</span>*/}
-            {/*                    <span className="font-bold">892</span>*/}
-            {/*                </div>*/}
-            {/*                <div className="flex justify-between">*/}
-            {/*                    <span>Human Composed</span>*/}
-            {/*                    <span className="font-bold text-green-500">534</span>*/}
-            {/*                </div>*/}
-            {/*                <div className="flex justify-between">*/}
-            {/*                    <span>AI-Generated</span>*/}
-            {/*                    <span className="font-bold text-red-500">358</span>*/}
-            {/*                </div>*/}
-            {/*                <div className="flex justify-between">*/}
-            {/*                    <span>Top Genre</span>*/}
-            {/*                    <span className="font-bold text-indigo-600">Electronic</span>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        </CardContent>*/}
-            {/*    </Card>*/}
-            {/*</div>*/}
+                            <div className="w-full bg-muted rounded-full h-2">
+                                <div
+                                    className={`h-2 rounded-full ${itm?.data?.final_label !== 'Real' ? 'bg-red-500' : 'bg-green-500'}`}
+                                    style={{width: `${((itm?.data?.mean_confidence ?? 0) * 100)}%`}}
+                                ></div>
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                                <p><strong>Analysis Details:</strong></p>
+                                <ul className="list-disc list-inside mt-2 space-y-1">
+                                    <li>File name: {itm?.fileStore?.fileName}</li>
+                                    <li>Prosody
+                                        evaluation: {itm?.data?.final_label !== 'Real' ? 'Synthetic patterns detected' : 'Natural intonation found'}</li>
+                                    <li>Speech naturalness: {(itm?.data?.mean_confidence ?? 0)}%</li>
+                                    <li>Content type: {itm?.fileStore?.contentType}</li>
+                                    <li>Price: {itm?.aiBot?.oneUsePrice} so'm</li>
+                                </ul>
+                            </div>
+                        </div>
+                    })
+                }
+            </div>
         </div>
     );
 };

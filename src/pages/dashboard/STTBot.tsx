@@ -8,38 +8,18 @@ import {FileUpload} from "@/components/ui/fileUpload";
 import {VoiceRecorder} from "@/components/ui/voiceRecorder";
 import instance from "@/config/axios_config";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {useAuthStore} from "@/store/authStore";
 
 const STTBot = () => {
+    const {refreshAuth, setRefreshAuth} = useAuthStore()
     const contentRef = useRef<any>()
     const [isProcessing, setIsProcessing] = useState(false);
     const [result, setResult] = useState("Natija bu yerda ko'rinadi!!!");
     const [fileType, setFileType] = useState<"file" | "record">("file");
     const [file, setFile] = useState<File | null>(null);
     const [lang, setLang] = useState("uz");
-    const [data, setData] = useState<any>()
-    const history = [
-        {
-            id: 1,
-            input: 'Audio file: meeting_recording.mp3',
-            output: 'Hello everyone, welcome to today\'s meeting...',
-            date: '2024-01-15',
-            duration: '2m 30s'
-        },
-        {
-            id: 2,
-            input: 'Audio file: voice_note.wav',
-            output: 'Remember to pick up groceries after work...',
-            date: '2024-01-14',
-            duration: '45s'
-        },
-        {
-            id: 3,
-            input: 'Audio file: interview.mp3',
-            output: 'Thank you for taking the time to speak with me...',
-            date: '2024-01-13',
-            duration: '15m 20s'
-        },
-    ];
+    const [data, setData] = useState<any>();
+    const [refreshHistory, setRefreshHistory] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -61,7 +41,7 @@ const STTBot = () => {
                 message.error("Error!");
             }
         })()
-    }, [])
+    }, [refreshHistory])
 
     const handleProcess = async () => {
         setIsProcessing(true);
@@ -76,12 +56,18 @@ const STTBot = () => {
                 data
             });
             if (reps?.data?.status === 1) {
-                setResult(reps?.data?.data?.data?.data?.transcription)
+                setResult(reps?.data?.data?.data?.data?.transcription);
+                setRefreshHistory(!refreshHistory);
+                setRefreshAuth(!refreshAuth)
+            } else {
+                message.error(reps?.data?.message)
             }
             setIsProcessing(false);
         } catch (e: any) {
-            console.log(e);
-            message.error("Error!");
+            if (e?.response?.status === 422) {
+                message?.error(e?.response?.data?.message)
+            } else
+                message.error("Error!");
             setIsProcessing(false)
         }
     };
@@ -181,11 +167,13 @@ const STTBot = () => {
                                 <div key={item.id} className="border rounded-lg p-2 md:p-3">
                                     <div
                                         className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-2">
-                                        <p className="text-xs md:text-sm font-medium break-words">File name: {item?.fileStore?.fileName}</p>
-                                        <span className="text-xs text-muted-foreground flex-shrink-0">{new Date(item?.updatedAt).toLocaleString()}</span>
+                                        <p className="text-xs md:text-sm font-medium break-words">File
+                                            name: {item?.fileStore?.fileName}</p>
+                                        <span
+                                            className="text-xs text-muted-foreground flex-shrink-0">{new Date(item?.updatedAt).toLocaleString()}</span>
                                     </div>
                                     <p className="text-xs text-muted-foreground mb-2">
-                                        Duration: {item?.data.duration??0}
+                                        Duration: {item?.data.duration ?? 0}. Price: {item?.aiBot?.oneUsePrice} so'm
                                     </p>
                                     <p className="text-xs md:text-sm text-gray-700 break-words">{item.data?.transcription}</p>
                                 </div>
