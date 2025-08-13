@@ -10,6 +10,13 @@ export type authStoreType = {
     setUserAndAuth: (data: { isAuth: boolean, user: currentUserType | undefined, permissions: string[] }) => void
 }
 
+export type userAccountType = {
+    amount: number
+    id: number
+    lastPaymentAmount: number
+    lastPaymentDate: number
+}
+
 export type currentUserType = {
     id: number,
     lastName: string,
@@ -17,7 +24,8 @@ export type currentUserType = {
     firstName: string,
     roles: Array<roleType>,
     username: string,
-    requiredChangePassword: boolean
+    requiredChangePassword: boolean,
+    userAccount: userAccountType
 }
 
 export type roleType = {
@@ -34,5 +42,5 @@ export const useAuthStore = create<authStoreType>((setState) => ({
     permissions: [],
     setLoading: (b) => (setState(() => ({loading: b}))),
     setAuth: (isAuth) => (setState(() => ({isAuth}))),
-    setUserAndAuth: (data) => (setState(() => ({isAuth: data.isAuth, user: data.user,permissions:data?.permissions})))
+    setUserAndAuth: (data) => (setState(() => ({isAuth: data.isAuth, user: data.user, permissions: data?.permissions})))
 }))

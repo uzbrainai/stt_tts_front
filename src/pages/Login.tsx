@@ -43,7 +43,8 @@ const Login = () => {
                         firstName: resData?.user?.firstName,
                         middleName: resData?.user?.middleName,
                         roles: resData?.user?.roles,
-                        requiredChangePassword: resData?.user?.requiredChangePassword
+                        requiredChangePassword: resData?.user?.requiredChangePassword,
+                        userAccount: resData?.user?.userAccount
                     },
                     permissions: resData?.user?.roles?.map((item: any) => item?.permissions)?.flat()
                 });
@@ -83,7 +84,8 @@ const Login = () => {
                         firstName: resData?.user?.firstName,
                         middleName: resData?.user?.middleName,
                         roles: resData?.user?.roles,
-                        requiredChangePassword: resData?.user?.requiredChangePassword
+                        requiredChangePassword: resData?.user?.requiredChangePassword,
+                        userAccount: resData?.user?.userAccount
                     },
                     permissions: resData?.user?.roles?.map((item: any) => item?.permissions)?.flat()
                 });
