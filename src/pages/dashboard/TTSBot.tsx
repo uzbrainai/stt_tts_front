@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from '@/components/ui/card';
 import {Button} from '@/components/ui/button';
 import {Bot, History} from 'lucide-react';
@@ -10,13 +10,15 @@ import file5 from '../../assets/static_fles/audio5.wav';
 import file6 from '../../assets/static_fles/audio6.wav';
 import file7 from '../../assets/static_fles/audio7.wav';
 import {message} from "antd";
+import instance from "@/config/axios_config";
 
 const TTSBot = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [text, setText] = useState('');
+    const [voice, setVoice] = useState<string>("")
     const [audioResult, setAudioResult] = useState<any>();
     const [history, setHistory] = useState([]);
-    const [play, setPlay] = useState<number>()
+    const [voices, setVoices] = useState<{ key: string, name: string }[]>([])
 
     const testData = [
         {
@@ -63,25 +65,49 @@ const TTSBot = () => {
         }
     ]
 
-    const handleProcess = () => {
+    useEffect(() => {
+        (async () => {
+            try {
+                let resp = await instance({
+                    method: "get",
+                    url: "use-bot/voices"
+                });
+                if (resp?.data?.status === 1) {
+                    setVoices(resp?.data?.data);
+                    setVoice(resp?.data?.data?.[0]?.key)
+                } else {
+                    message.error(resp?.data?.message);
+                }
+            } catch (e: any) {
+                console.log(e);
+                message?.error(e?.response?.data?.message ?? "Error!");
+            }
+        })()
+    }, [])
+
+    const handleProcess = async () => {
         setIsProcessing(true);
-        setTimeout(() => {
-            let find = testData?.find(t => t?.text === text);
-            if (find) {
-                find["name"] = 'audio_output_' + Date.now() + '.vaw';
-                find["voice"] = "Female (Laylo)";
-                find["date"] = new Date().toLocaleString();
-                find["id"] = history?.length > 0 ? history?.[history?.length - 1]?.id + 1 : 1
-                setAudioResult(find);
-                setHistory([
-                    find,
-                    ...history
-                ])
-            } else {
-                message.error("Error!");
+        try {
+            let data = new FormData();
+            data.append("botId", "5");
+            data.append("text", text);
+            data.append("voiceKey", voice);
+            let reps = await instance({
+                method: "post",
+                url: "/use-bot",
+                data
+            });
+            if (reps?.data?.status === 1) {
+                console.log(reps)
             }
             setIsProcessing(false);
-        }, 3000);
+        } catch (e: any) {
+            if (e?.response?.status === 422) {
+                message?.error(e?.response?.data?.message)
+            } else
+                message.error("Error!");
+            setIsProcessing(false)
+        }
     };
 
     return (
@@ -112,8 +138,13 @@ const TTSBot = () => {
             />
                         <div className="grid grid-cols-1 gap-2">
                             <select
+                                value={voice}
+                                onChange={(e) => setVoice(e?.target?.value)}
                                 className="p-2 border rounded bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-700">
-                                <option className="dark:bg-gray-800">Female (Laylo)</option>
+                                {
+                                    voices?.map((v) => <option value={v?.key}
+                                                               className="dark:bg-gray-800">{v?.name}</option>)
+                                }
                                 {/*<option className="dark:bg-gray-800">Male (David)</option>*/}
                                 {/*<option className="dark:bg-gray-800">Female (Emma)</option>*/}
                                 {/*<option className="dark:bg-gray-800">Male (James)</option>*/}
