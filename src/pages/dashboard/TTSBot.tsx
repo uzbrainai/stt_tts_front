@@ -11,59 +11,38 @@ import file6 from '../../assets/static_fles/audio6.wav';
 import file7 from '../../assets/static_fles/audio7.wav';
 import {message} from "antd";
 import instance from "@/config/axios_config";
+import {API_URL} from "@/config/constants";
 
 const TTSBot = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [text, setText] = useState('');
     const [voice, setVoice] = useState<string>("")
     const [audioResult, setAudioResult] = useState<any>();
-    const [history, setHistory] = useState([]);
     const [voices, setVoices] = useState<{ key: string, name: string }[]>([])
+    const [data, setData] = useState<any>();
+    const [refreshHistory, setRefreshHistory] = useState(false);
 
-    const testData = [
-        {
-            id: 1,
-            text: "Shu bilan birga, O‘zbekistonda o‘tkazilgan shaxmat bo‘yicha ko‘plab nufuzli musobaqalar dizayn loyihalari muallifidir.",
-            file: file1,
-            emotion: "Happy"
-        },
-        {
-            id: 2,
-            text: "Tohir Rahimov birinchi o‘zbek sangtaroshi, 1937 yilda millat ziyolilari qatorida qatag‘on qilingan Abdurahim usta Turdiyevning nabirasidir.",
-            file: file2,
-            emotion: "Sad"
-        },
-        {
-            id: 3,
-            text: "Endi mazkur vazirliklar o‘zaro muvofiq ishlab, bozor talablari asosida mavjud imkoniyatlarni to‘liq ishga solish, hududlar va tarmoqlarni jadal rivojlantirish choralarini ko‘radi.",
-            file: file3,
-            emotion: "Neutral"
-        },
-        {
-            id: 4,
-            text: "Havo o‘zgarib turadi, yog‘ingarchilik kutilmaydi.",
-            file: file4,
-            emotion: "Angry"
-        },
-        {
-            id: 5,
-            text: "Voy, O'zbekiston jahon chempionatiga chiqibdi! Bu eng baxtli xabar, bugungi kunimni nurga to'ldirdi!",
-            file: file5,
-            emotion: "Happy"
-        },
-        {
-            id: 6,
-            text: "Men ham baxtli bo'lishga arzirdimku. Lekin taqdir doim jim bo'ldi, men yig'laganimda ham.",
-            file: file6,
-            emotion: "Sad"
-        },
-        {
-            id: 7,
-            text: "Qanchalik sabr qilsam ham endi chiday olmayman! Nega har safar xuddi shu xatoni takrorlaysan?",
-            file: file7,
-            emotion: "Angry"
-        }
-    ]
+    useEffect(() => {
+        (async () => {
+            try {
+                let resp = await instance({
+                    method: "get",
+                    url: '/ai-response',
+                    params: {
+                        botId: 5
+                    }
+                });
+                if (resp?.data?.status === 1) {
+                    setData(resp?.data?.data)
+                } else {
+                    message.error(resp?.data.message);
+                }
+            } catch (e) {
+                console.log(e);
+                message.error("Error!");
+            }
+        })()
+    }, [refreshHistory])
 
     useEffect(() => {
         (async () => {
@@ -98,7 +77,8 @@ const TTSBot = () => {
                 data
             });
             if (reps?.data?.status === 1) {
-                console.log(reps)
+                setAudioResult(reps?.data?.data?.data);
+                setRefreshHistory(!refreshHistory);
             }
             setIsProcessing(false);
         } catch (e: any) {
@@ -164,12 +144,15 @@ const TTSBot = () => {
                         </Button>
                         {audioResult && (
                             <div className="mt-4 p-4 bg-muted rounded-lg">
-                                <div className="flex justify-between">
-                                    <h4 className="font-medium mb-2">Audio Generated:</h4>
-                                    <p className="text-sm mb-2">{audioResult?.name}</p>
+                                <div className="flex justify-between items-start mb-2">
+                                    <p className="text-sm font-medium">Voice: {voices?.find(v => v?.key === audioResult?.data?.voiceKey)?.name}</p>
+                                    <span className="text-xs text-muted-foreground">{new Date(audioResult?.createdAt).toLocaleString()}</span>
                                 </div>
+                                <p className="text-xs text-muted-foreground mb-2">
+                                    Text: {audioResult?.data?.text}
+                                </p>
                                 <div className={"h-[50px]"}>
-                                    <audio controls src={audioResult?.file} className="w-full mb-4 rounded-md"></audio>
+                                    <audio controls src={`${API_URL}/files/get-file-v2/${audioResult?.fileStore?.id}`} className="w-full mb-4 rounded-md"></audio>
                                 </div>
                             </div>
                         )}
@@ -186,25 +169,20 @@ const TTSBot = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4 h-[65vh] overflow-auto">
-                            {history.map((item) => (
+                            {data?.items?.map?.((item: any) => (
                                 <div key={item.id} className="border rounded-lg p-3">
                                     <div className="flex justify-between items-start mb-2">
-                                        <p className="text-sm font-medium">Voice: {item?.voice}</p>
-                                        <span className="text-xs text-muted-foreground">{item?.date}</span>
+                                        <p className="text-sm font-medium">Voice: {voices?.find(v => v?.key === item?.data?.voiceKey)?.name}</p>
+                                        <span className="text-xs text-muted-foreground">{new Date(item?.createdAt).toLocaleString()}</span>
                                     </div>
                                     <p className="text-xs text-muted-foreground mb-2">
-                                        Name: {item?.name}
+                                        Text: {item?.data?.text}
                                     </p>
-                                    <p className="text-xs text-muted-foreground mb-2 flex justify-between">
-                                        <div>
-                                            Emotion: {item?.emotion}
-                                        </div>
-                                    </p>
-                                    <p className="text-sm text-gray-700 dark:text-gray-300">{item?.text}</p>
                                     <div className="flex mt-3">
                                         <audio onPlay={(a) => {
                                             a.preventDefault();
-                                        }} controls src={item?.file} className="w-full mb-4 rounded-md"></audio>
+                                        }} controls src={`${API_URL}/files/get-file-v2/${item?.fileStore?.id}`}
+                                               className="w-full mb-4 rounded-md"></audio>
                                     </div>
                                 </div>
                             ))}
